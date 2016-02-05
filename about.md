@@ -1,15 +1,26 @@
 ---
 layout: page
-title: About
+title: 关于
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+# 个人背景
+我生于武汉，长于武汉，学成于武汉，来到这个世界的前23年一直没有离开过武汉。
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+# 教育
+武汉大学，本科，研究生，软件工程，毕业于2011年。
+
+
+# 工作
+* 甲骨文（深圳），2010年夏到秋，实习，初入职场，学到不少做人做事的道理，该实习经历也为我打开了腾讯的大门。
+* 腾讯，2011年到现在。先后经历了测试开发，前端开发，经营分析和数据挖掘，我想我应该会在数据挖掘上干很长时间，:)
+
+
+更多工作信息，参考我的[LinkedIn](https://cn.linkedin.com/in/bourneli)。
+
+
+
+# 爱好
+运动，包括篮球，跑步，健身和游泳。看电影，各种好看的电影。
+

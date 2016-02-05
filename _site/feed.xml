@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>一数一世界</title>
+    <description>数学，机器学习，数据挖掘应用
+</description>
+    <link>http://bourneli.github.io/</link>
+    <atom:link href="http://bourneli.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 05 Feb 2016 11:52:09 +0800</pubDate>
+    <lastBuildDate>Fri, 05 Feb 2016 11:52:09 +0800</lastBuildDate>
+    <generator>Jekyll v3.0.2</generator>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 05 Feb 2016 10:31:28 +0800</pubDate>
+        <link>http://bourneli.github.io/jekyll/update/2016/02/05/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://bourneli.github.io/jekyll/update/2016/02/05/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>配置github个人主页踩过的坑</title>
+        <description>&lt;p&gt;最近年末，终于有时间配置自己的github个人主页。踩了一些坑，总结一下，希望对其他同学有帮组。&lt;/p&gt;
+
+&lt;h1 id=&quot;section&quot;&gt;环境要求&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;可以畅通访问github等国外网站，大环境是这样，你懂的 :)&lt;/li&gt;
+  &lt;li&gt;注册github账号&lt;/li&gt;
+  &lt;li&gt;建议在mac配置本地环境，使用windows也可以（我就是win 8），因为ruby支持类unix系统比windows好太多&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;section-1&quot;&gt;大致过程&lt;/h1&gt;
+&lt;p&gt;github提供静态blog所需的一切，包括流量，空间，服务器托管。github官方建议使用ruby下的jekyll模块生成静态站点，用于维护css，header，等公共部分。编写markdown格式的blog（这也是为什么转投github的一个原因）。&lt;/p&gt;
+
+&lt;h1 id=&quot;section-2&quot;&gt;参考文档&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pages.github.com/&quot;&gt;如何创建github规范的博客仓库&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jekyll-windows.juthilo.com/&quot;&gt;Windwos上安装ruby&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;手把手安装jekyll等依赖&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;section-3&quot;&gt;踩过的“坑”&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;安装了&lt;em&gt;github-pages&lt;/em&gt;包后，无需单独安装&lt;em&gt;jekyll&lt;/em&gt;，&lt;/li&gt;
+  &lt;li&gt;目录下需要有Gemfile文件，内容为&lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;手把手安装jekyll等依赖&lt;/a&gt;中对应。&lt;/li&gt;
+  &lt;li&gt;创建了jekyll的框架后，手动cp到你的本地仓库中，然后add,commit,push到github上，就可以访问了。&lt;/li&gt;
+  &lt;li&gt;启动命令 &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;,本地url&lt;a href=&quot;http://localhost:4000&quot;&gt;http://localhost:4000&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;希望这些内容对你有用。&lt;/p&gt;
+</description>
+        <pubDate>Fri, 05 Feb 2016 10:31:28 +0800</pubDate>
+        <link>http://bourneli.github.io/2016/02/05/set-personal-blog-on-github.html</link>
+        <guid isPermaLink="true">http://bourneli.github.io/2016/02/05/set-personal-blog-on-github.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

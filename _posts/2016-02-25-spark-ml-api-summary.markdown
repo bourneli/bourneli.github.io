@@ -27,7 +27,7 @@ ML核心对象组织方式使用了[组合设计模式](https://en.wikipedia.org
 Pipeline的核心逻辑在[Pipeline::fit](https://github.com/apache/spark/blob/branch-1.6/mllib/src/main/scala/org/apache/spark/ml/Pipeline.scala#L126)函数中。该方法找到最后一个Estimator，然后执行之前的所有Transformer::transform和Estimator::fit(与之后的transform),新的PipelineModel中只有Transformer对象。根据笔者的工作经验，最后的Estimator一般都是分类算法，比如Gradient Boost Tree或Random Forest，而之前的Transformer是一些数据预处理过程，比如变量打包，添加元数据，过滤异常数据等。
 
 ## 算法评估改造
-笔者工作中主要面对二元分类问题，而在目前1.6版的实现中，[BinaryClassificationEvaluator](https://github.com/apache/spark/blob/branch-1.6/mllib/src/main/scala/org/apache/spark/ml/evaluation/BinaryClassificationEvaluator.scala)只提供了areaUnderPR和areaUnderPR两个指标，而[MulticlassClassificationEvaluator](https://github.com/apache/spark/blob/branch-1.6/mllib/src/main/scala/org/apache/spark/ml/evaluation/MulticlassClassificationEvaluator.scala)却没有提供针对特定标签计算f1,precision,recall等评估指标。所以，基于这两点，笔者实现了一个二元评估对象，结合上面两个类，增加了基于特定的标签指标计算。代码如下：
+笔者工作中主要面对二元分类问题，而在目前1.6版的实现中，[BinaryClassificationEvaluator](https://github.com/apache/spark/blob/branch-1.6/mllib/src/main/scala/org/apache/spark/ml/evaluation/BinaryClassificationEvaluator.scala)只提供了areaUnderROC和areaUnderPR两个指标，而[MulticlassClassificationEvaluator](https://github.com/apache/spark/blob/branch-1.6/mllib/src/main/scala/org/apache/spark/ml/evaluation/MulticlassClassificationEvaluator.scala)却没有提供针对特定标签计算f1,precision,recall等评估指标。所以，基于这两点，笔者实现了一个二元评估对象，结合上面两个类，增加了基于特定的标签指标计算。代码如下：
 {% highlight scala %}
 class BinaryClassificationEvaluatorT(override val uid: String)
   extends Evaluator with HasPredictionCol with HasLabelCol {

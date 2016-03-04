@@ -52,13 +52,19 @@ A^TAx=0
 & \Rightarrow Ax=0 \\
 & \Rightarrow A的列向量线性独立 \\ 
 & \Rightarrow x=0 \\
-& \Rightarrow 方阵的零空间为空，说明满秩，必可逆
+& \Rightarrow 方阵A^TA的零空间为空，说明满秩，必可逆
 \end{align}
 $$
 
-证毕。
+证毕。上面命题的否命题也成立，
 
-在线性代数的大部分应用中，都会遇到$A^TA$的形式，比如SVD，投影向量等。通过上面的证明，可以发现如果需要$A^TA$可逆，必须让A的列向量中没有多余的列，A必须是方形或者瘦长形(列数<=行数)。这种简洁的美感，可以用爱因斯坦的那句名言概括**"Everything should be made as simple as possible, but no simpler."**
+$$
+A^TA不可逆 \Leftrightarrow A的列向量线性依赖
+$$
+
+在线性代数的大部分应用中，都会遇到$A^TA$的形式，比如SVD，投影向量等。通过上面的证明，可以发现如果需要$A^TA$可逆，必须让A的列向量中没有多余的列，A必须是方形或者瘦长形(列数<=行数)。这种简洁的美感，可以用爱因斯坦的那句名言概括:
+
+<p align='center'><strong> Everything should be made as simple as possible, but no simpler.</strong></p>
 
 
 

@@ -2,7 +2,7 @@
 layout: post
 title:  "线代随笔02-$A\\vec{x} = \\vec{b}$的完整解"
 date:   2016-02-23 17:36:11 +0800
-categories: linear algebra
+categories: linear-algebra
 ---
 
 ## 完整解形式

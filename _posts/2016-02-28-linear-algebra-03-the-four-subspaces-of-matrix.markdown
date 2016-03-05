@@ -2,7 +2,7 @@
 layout: post
 title:  "线代随笔03-矩阵的四个线性子空间"
 date:   2016-02-28 20:05:28 +0800
-categories: linear algebra
+categories: linear-algebra
 ---
 
 矩阵的四个线性子空间是线性代数的理论基石，包含了线性子空间，矩阵的秩，维度，基，零空间，逆等。下面的内容总结相关内容，作为备忘，方便后续快速回顾。

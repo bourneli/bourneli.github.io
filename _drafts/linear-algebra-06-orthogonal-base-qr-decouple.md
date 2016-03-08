@@ -1,24 +1,52 @@
 ---
 layout: post
-title:  "线代随笔06-正交基与QR分解"
+title:  "线代随笔06-正交矩阵Q及其应用"
 categories: linear-algebra
 ---
 
-## 标准正交矩阵Q
-如果矩阵的列向量互相正交，且长度为1，那么该矩阵称之为标准正交矩阵，不要求矩阵满秩。如果满秩，即Q是方正，称之为正交矩阵(Orthogonal Matrix)。标准正交矩阵有很多好的性质，这就是为什么常用的原因。
+如果矩阵的列向量互相正交，且长度为1，那么该矩阵称之为标准正交矩阵，不要求矩阵满秩。如果满秩，即Q是方正，称之为**正交矩阵(Orthogonal Matrix)**。标准正交矩阵有很多好的性质：
 
 * $Q^TQ=I$，不要求Q为方阵。
-* $Q^T=Q^{-1}$，需要Q为方阵。
+* 如果$Q$为方阵，$Q^TQ=QQ^T=I \Rightarrow Q^T=Q^{-1}$。
+* $Qx$不改变x的长度。$\|Qx\|^{2}=(Qx)^TQx=x^TQ^TQx=x^Tx=\|x\|^2$
+* $Q$不改变向量点积。$Qx \cdot Qy = (Qx)^TQy=x^TQ^TQy=x^Ty$ 
 
-* Qx不改变x的长度。$\|Qx\|^{2}=(Qx)^TQx=x^TQ^TQx=x^Tx=\|x\|^2$
-* Q不改变向量点积。$Qx \cdot Qy = (Qx)^TQy=x^TQ^TQy=x^Ty$ 
 
+## 投影中，使用标准正交矩阵Q取代A
+在上一篇博文[线代随笔05-向量投影与线性回归](/linear-algebra/2016/03/05/linear-algebra-05-projection-and-linear-regression.html)中，推导出了向量投影公式，里面有$A^TA$形式，如果将Q取代A，那么重新推导相关结论，
 
-## 投影中，正交矩阵Q取代A
-* 如果A=Q，投影矩阵可简化为$P=Q(Q^TQ)^{-1}Q^T=QQ^T$，如果Q满秩，进一步化简为$P=I$。根据简化的投影矩阵，Q中单列$q_i$的投影矩阵$P_i=q_iq^T_i$。
+* 投影系数 $\hat{x}=(Q^TQ)^{-1}Q^Tb=Q^Tb$。
+* 投影矩阵 $P=Q(Q^TQ)^{-1}Q^T=QQ^T$。如果$Q$只有一列$q$，$P=qq^T$（**下面会用到**）。
+* 投影向量 $p=Q(Q^TQ)^{-1}Q^Tb=QQ^Tb$。
 
-## Gram Schmidt算法
-可以通过单向量投影，证明gram schmidt方法计算出来基同样span整个空间
+根据简化后的投影向量p，可以进一步观察p的组成结构，假设Q的列为n
+
+$$
+\begin{align}
+	p & = \begin{bmatrix}q_1 \cdots q_2 \end{bmatrix} \begin{bmatrix} q_1^T \\ \vdots \\ q_2^T \end{bmatrix}b 
+	    = \begin{bmatrix}q_1 \cdots q_2 \end{bmatrix} \begin{bmatrix} q_1^Tb \\ \vdots \\ q_2^Tb \end{bmatrix} \\
+	  & = \sum_{i=1}^n (q_1^Tb)q_i = \sum_{i=1}^n q_i(q_1^Tb) = \sum_{i=1}^n (q_iq_i^T)b
+\end{align}
+$$
+
+通过最终形式，可以发现向量$b$到$C(Q)$的投影，本质上是b到每个**正交向量$\vec{q_i}$的投影**的和,并且这些投影分量正交，设$\vec{q_i},\vec{q_j}$为$Q$中任意两列向量，
+
+$$
+\begin{align}
+	(q_iq_i^T)b \cdot (q_jq_j^T)b &= ((q_iq_i^T)b)^T(q_jq_j^T)b \\
+								  &= b^Tq_iq_i^Tq_jq_j^Tb \\
+								  &= b^Tq_i(q_i^Tq_j)q_j^Tb \\
+								  &= b^Tq_i(\vec{0})q_j^Tb \\
+								  &= \vec{0}
+\end{align}
+$$
+
+标准正交矩阵$Q$是一个非常优美的矩阵，它可将$b$投影到每个列向量，并且彼此之间正交，没有冗余。
+
+## 计算标准正交向量---Gram Schmidt算法
+标准正交向量有这么好的性质，如何能正确的计算出来呢？我们知道，一个线性子空间的基是可以有无数组的，如果能够通过任意特定的基，找到一组标准正交基，那么岂不是很妙！Gram Schmidt算法就是用来处理这件事情，这里还是要感谢两位大神提供了这么好的算法。
+
+算法的具体思想是
 
 ## QR分解
 

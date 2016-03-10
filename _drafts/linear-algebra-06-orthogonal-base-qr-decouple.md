@@ -52,15 +52,50 @@ $$
 2. $Q=\begin{bmatrix}\end{bmatrix}$
 3. $q_1= {a_1 \over \|\|a_1\|\|}$，将$q_1$放入$Q$，有$Q=\begin{bmatrix} q_1 \end{bmatrix}$
 4. for $a_i$ in A and $i \ge 2$
-5. * $分解a_i = aq_i + an_i,其中 aq_i \in C(Q) 且 an_i \in N(Q^T)$  分解就是减去投影
-6. * $q_i = {an_i \over \|\| an_i \|\|}$,
+5. * $n_i = a_i - QQ^Ta_i = (I-QQ^T)a_i$
+6. * $q_i = {n_i \over \|\| n_i \|\|}$
 7. * $Q=Q + q_i = \begin{bmatrix} q_1 \cdots q_i\end{bmatrix}$
 7. end for 
 8. 返回Q
 
-
 ## QR分解
+在上面的过程中，将$a_i$分解为正交基的线性组合
 
+$a_1 = (q_1^Ta_1)q_1$
 
+$a_2 = (q_1^Ta_2)q_1+(q_2^Ta_2)q_2 $ 
+
+$a_3 = (q_1^Ta_3)q_1+(q_2^Ta_3)q_2+(q_3^Ta_3)q_3 $
+
+$\vdots$ 
+
+$a_n = (q_1^Ta_n)q_1 + (q_2^Ta_n)q_2 + \cdots + (q_n^Ta_n)q_n$
+
+将上面的公式总结为矩阵形式，
+
+$$
+	A = \begin{bmatrix} a_1 & a_2 & \cdots & a_n\end{bmatrix} 
+	  = \begin{bmatrix} q_1 & q_2 & \cdots & q_n\end{bmatrix}
+	  \begin{bmatrix}
+		q_1^Ta_1 & q_1^Ta_2 & q_1^Ta_3 & \cdots & q_1^Ta_n \\
+		0		 & q_2^Ta_2 & q_2^Ta_3 & \cdots & q_2^Ta_n \\
+	    0        & 0        & q_3^Ta_3 & \cdots & q_3^Ta_n \\
+		\vdots	 & \vdots   & \vdots   & \ddots & \vdots    \\
+		0        & 0        & 0        & \cdots & q_n^Ta_n
+	\end{bmatrix} = QR
+$$
+
+将上面的数组，按列投组织成矩阵，可以得到一个$n \times n$上三角方阵
+
+$$
+R = {\begin{bmatrix}
+	q_1^Ta_1 &  0 &  0  & \cdots  & 0 \\
+	q_1^Ta_2  & q_2^Ta_2 &  0  & \cdots &  0 \\
+	\vdots  &         & & \ddots & \vdots \\
+	q_1^Ta_n  & q_2^Ta_n &  q_3^Ta_n   & \cdots &  q_n^Ta_n
+\end{bmatrix}}^T 
+$$
+
+根据投影规则，可以使用R和Q，还原A
 
 

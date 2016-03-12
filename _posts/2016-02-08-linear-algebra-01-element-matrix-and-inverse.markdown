@@ -2,7 +2,7 @@
 layout: post
 title:  "线代随笔01-基础消元矩阵与逆矩阵"
 date:   2016-02-10 22:32:28 +0800
-categories: linear-algebra
+categories: [linear-algebra]
 ---
 
 ## 序言

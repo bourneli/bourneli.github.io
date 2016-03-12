@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "线代随笔06-正交矩阵Q及其应用"
-categories: linear-algebra
+categories: [linear-algebra]
 ---
 
 如果矩阵的列向量互相正交，且长度为1，那么该矩阵称之为标准正交矩阵，不要求矩阵满秩。如果满秩，即Q是方正，称之为**正交矩阵(Orthogonal Matrix)**。标准正交矩阵有很多好的性质：

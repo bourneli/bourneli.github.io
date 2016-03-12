@@ -2,7 +2,7 @@
 layout: post
 title:  "LaTeX和MathJax在博客中集成数学公式"
 date:   2016-02-05 11:31:28 +0800
-categories: "LaTeX"
+categories: [LaTeX]
 ---
 
 ## 方案

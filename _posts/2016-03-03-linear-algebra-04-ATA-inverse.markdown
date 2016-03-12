@@ -2,7 +2,7 @@
 layout: post
 title:  "线代随笔04-$A^TA$可逆条件"
 date:   2016-03-03 12:16:28 +0800
-categories: linear-algebra
+categories: [linear-algebra]
 ---
 
 大多数矩阵不是方正，必然没有逆矩阵。但是，$A^TA$必然是方正，此时是否一定可逆呢？答案是，需要看情况 :-)。下面给出$A^TA$可逆的充分必要条件，并证明，希望读者可以体会到其中的美感！

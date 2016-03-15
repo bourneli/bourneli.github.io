@@ -7,7 +7,7 @@ categories: [linear-algebra]
 
 矩阵的四个线性子空间是线性代数的理论基石，包含了线性子空间，矩阵的秩，维度，基，零空间，逆等。下面的内容总结相关内容，作为备忘，方便后续快速回顾。
 
-## 四个子空间及其维度
+## 四个子空间及性质
 设$r = rank(A)$,矩阵A的维度为$m \times n$, dim为计算空间的维度
 <div align="center"><img src="/img/4subspace_2.png" /></div>
 
@@ -16,7 +16,7 @@ categories: [linear-algebra]
 * $零空间=N(A), dim(N(A)) = n-r$
 * $左零空间=N(A^T), dim(N(A^T))=m-r$
 
-
+根据零空间定义，上面四个空间，两个互为垂直（即一个空间中的任意向量与另一个空间任意向量点积为0）：$C(A) \perp N(A^T), C(A^T) \perp N(A)$
 
 ## 为什么$r=dim(C(A))=dim(C(A^T))$
 **行空间维度** 矩阵秩r为轴列(pivot coloumn)的个数，而当A通过消元转成R时($EA = R$)，轴的个数可以通过非0行的数量得到，也就是前r行。而前r行中，轴列组成了单位矩阵$I_{r \times r}$，所以$C(A^T)$的基是前R行，其维度为**r**。
@@ -27,8 +27,9 @@ categories: [linear-algebra]
 设矩阵A如下
 
 $$
-A = \begin{bmatrix}1&0&0 \\ 2&1&0 \\ 5&0&1 \end{bmatrix} 
-\begin{bmatrix} 1&3&0&5 \\ 0&0&1&6 \\ 0&0&0&0 \end{bmatrix} = LU = E^{-1}R
+A = \begin{bmatrix} 1&3&0&5 \\ 2&6&1&16 \\ 5&15&0&25 \end{bmatrix}
+  = \begin{bmatrix}1&0&0 \\ 2&1&0 \\ 5&0&1 \end{bmatrix} 
+	\begin{bmatrix} 1&3&0&5 \\ 0&0&1&6 \\ 0&0&0&0 \end{bmatrix} = LU = E^{-1}R
 $$
 
 四个线性子空间基为

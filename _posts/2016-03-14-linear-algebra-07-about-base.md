@@ -54,3 +54,23 @@ $$
 $B^T$列线性独立,[$B^TB必可逆$](/linear-algebra/2016/03/03/linear-algebra-04-ATA-inverse.html)。因为D是一个$n \times m$向量，所以 $n \le m$才能满足$x=0$恒成立。
 
 同理，使用B表示A，可以推出$n \ge m$。最后得到$m=n$，证毕。
+
+## 维度过多必定余
+在空间$R^n$中，任意两子空间$V$和$W$，如果$dim(W)+dim(V) \gt n$，那么V，W交集必有非0向量。
+证明：假设V，W的结构如下
+
+$V=span({v_1, \cdots, v_k}), 其中v_i线性独立$
+$W=span({w_1, \cdots, w_{n-k}, \dots, w_j}), 其中w_i线性独立$
+
+令$A = \begin{bmatrix}v_1 & \cdots & v_k & w_1 & \cdots & w_{n-k} \end{bmatrix}$,且列向量线性独立，否则无需证明。
+
+那么$C(A)=R^n$，有$w_j = \sum^k_{i=1}{c_iv_i} + \sum^{n-k}_{i=1}{d_iw_i}$
+
+令
+$$
+	w_{j1} = \sum^{n-k}_{i=1}{d_iw_i}, w_{j2}= \sum^{k}_{i=1}{c_iv_i} \Rightarrow  w_j = w_{j1}+w_{j2}
+$$
+
+所以，$w_{j2} \in V 且 w_{j2} \in W$，证毕。
+
+

@@ -4,7 +4,7 @@ title:  "线代随笔07-关于基的那些事"
 categories: [linear-algebra]
 ---
 
-线性空间的基非常重要，正如其名字，它是线性空间的基石，线性空间围绕其构建。每个特定的线性空间，可以有无数不同的基，最好用，也是最常用的基是正交基，因为它乘起来得到单位矩阵。虽然基千变万化，但是基的数目稳定，称之为维度；且基一旦确定，可以唯一表示线性空间中的任意向量。
+线性空间的基非常重要，正如其名字，它是线性空间的基石，线性空间围绕其构建。每个特定的线性空间，可以有无数不同的基，最好用，也是最常用的基是正交基，因为它乘起来得到单位矩阵。虽然基千变万化，但是基的数目稳定，称之为维度；且基一旦确定，可以唯一表示线性空间中的任意向量。下面记录基的一些性质并且给出相关证明。
 
 ## 基唯一表示任意向量
 设A的列向量$\vec{a_1},\cdots, \vec{a_k}$线性独立，$\vec{x}$为$C(A)$中任意向量，那么假设
@@ -16,21 +16,22 @@ $$
 由于线性独立，$c_i=d_i$,证毕。
 
 ## 维度不变
-设有两组基
+设空间$S$有两组基
 
 $$
 	A = \begin{bmatrix} a_1 & \cdots & a_m \end{bmatrix},
-	B = \begin{bmatrix} b_1 & \cdots & b_n \end{bmatrix},
-	m \ne n，且 C(A)=C(B)=S
+	B = \begin{bmatrix} b_1 & \cdots & b_n \end{bmatrix}
 $$
 
-那么，用A表示B
+即$S=C(A)=C(B)$
 
-$\vec{a_1} = c_{11}\vec{b_1} + c_{12}\vec{b_2} + \cdots + c_{1n}\vec{b_n}$
+用B表示A
+
+$\vec{a_1} = c_{11}\vec{b_1} + \cdots + c_{1n}\vec{b_n}$
 
 $\vdots$
 
-$\vec{a_m} = c_{m1}\vec{b_1} + c_{m2}\vec{b_2} + \cdots + c_{mn}\vec{b_n}$
+$\vec{a_m} = c_{m1}\vec{b_1} + \cdots + c_{mn}\vec{b_n}$
 
 所以 
 
@@ -42,18 +43,51 @@ A = \begin{bmatrix} b_1 & \cdots & b_n \end{bmatrix}
 			\vdots & \vdots & \vdots \\
 			c_{1n} & \cdots & c_{mn} \\
 		\end{bmatrix}
-	}_D = BD
+	}_C = BC
 $$	 
 
-计算0空间，由于A线性独立，所以x=0恒成立
+观察C的形状，假设$n \gt m$,那么C是一个宽行的矩阵，也就有如下结论
 
 $$
-	Ax = BDx=0 \Rightarrow B^TBDx=0 \Rightarrow (B^TB)^{-1}B^TBDx=Dx=0
+	\exists x \ne 0 使得 Cx = 0 
 $$
 
-$B^T$列线性独立,[$B^TB必可逆$](/linear-algebra/2016/03/03/linear-algebra-04-ATA-inverse.html)。因为D是一个$n \times m$向量，所以 $n \le m$才能满足$x=0$恒成立。
+两边同时乘以$B$，不会改变x
 
-同理，使用B表示A，可以推出$n \ge m$。最后得到$m=n$，证毕。
+$$
+	\exists x \ne 0 使得 BCx = 0 = Ax
+$$
+
+由于A列向量线性独立，所以上面x=0恒成立，与假设矛盾，所以m>n不成立。
+
+同样，用A表示B
+
+$\vec{b_1} = d_{11}\vec{a_1} + \cdots + d_{1m}\vec{a_m}$
+
+$\vdots$
+
+$\vec{b_n} = d_{n1}\vec{a_1} + \cdots + d_{nm}\vec{a_m}$
+
+使用矩阵表示，总结如下
+
+$$
+B = \begin{bmatrix} a_1 & \cdots & a_m \end{bmatrix}
+    \underbrace{
+		\begin{bmatrix}
+			d_{11} & \cdots & d_{n1} \\
+			\vdots & \vdots & \vdots \\
+			d_{1m} & \cdots & d_{nm} \\
+		\end{bmatrix}
+	}_D = AD
+$$	 
+
+现在只剩下$n \lt m$的情况，只是$D$是一个宽矩阵，类似上面的方法，同样可以推导矛盾。
+
+所以，只有$m = n$这一种情况，在上面两种情况下均成立，证毕。
+
+上面的证明再一次的演示了矩阵表示的简洁与优美，可以将问题简化，方便观察特征，找到解决办法。
+
+
 
 ## 维度过多必定冗余
 在空间$R^n$中，任意两子空间$V$和$W$，如果$dim(W)+dim(V) \gt n$，那么V，W交集必有非0向量。

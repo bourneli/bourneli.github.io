@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  柯西-施瓦茨不等式推广到向量
-categories: [linear-algebra]
+title:  柯西-施瓦茨不等式推广到向量空间$\Bbb R^m$
+categories: [inequality]
 ---
 
 实数域$\Bbb R^n$下[柯西不等式](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality)如下

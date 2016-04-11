@@ -73,8 +73,3 @@ $$
 * [Cauchy-Schwars inequality Wiki](https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality)
 * [What is the difference between square of sum and sum of square?](http://math.stackexchange.com/a/439238/261790)
 * [Proof of analogue of the Cauchy-Schwarz inequality to vector](http://math.stackexchange.com/questions/1731819/proof-of-analogue-of-the-cauchy-schwarz-inequality-to-vector)
-
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2094661"></script>
-<!-- UY END -->

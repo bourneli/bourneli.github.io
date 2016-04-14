@@ -11,36 +11,12 @@ $$
 A^TA可逆 \Leftrightarrow A的列向量线性独立
 $$
 
-**证明：$A^TA可逆 \Rightarrow A的列向量线性独立$**
-
-使用反正，假设A的列线性依赖，那么有
-
-$$
-\exists{x \neq 0},Ax=0
-$$
-
-两边同时乘以$A^T$，x保持不变，进而有
-
-$$
-\exists{x \neq 0},A^TAx=A^T0=0
-$$
-
-因为$A^TA$可逆，所以
-
-$$
-\begin{align}
-\exists{x \neq 0}, A^TAx=0 
-& \Rightarrow (A^TA)^{-1}(A^TA)x=0 \\
-& \Rightarrow x=0, x必须为0
-\end{align}
-$$
-
-与假设矛盾，所以假设不成立，所以A的列向量线性独立。
-
-
-
 
 **证明：$A的列向量线性独立 \Rightarrow A^TA可逆$**
+
+[$N(A^TA)=N(A)=0$](/linear-algebra/2016/04/14/linear-algebra-09-null-space-for-ata-and-a.html),证毕。
+
+**证明：$A^TA可逆 \Rightarrow A的列向量线性独立$**
 
 计算$A^TA$的列空间，
 

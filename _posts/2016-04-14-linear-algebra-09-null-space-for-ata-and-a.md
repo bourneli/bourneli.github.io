@@ -15,7 +15,7 @@ $A^TA$矩阵在线性代数应用中经常会用到，这次讨论的内容是�
 
 $$ \exists x, Ax \ne 0, A^TAx=0 $$
 
-经过一番折腾，发现宏观上，无论怎么变换，也找不到破绽，所以必须从微观上观察，也就是$A^TAx$的结构，先定义一些符号
+经过一番折腾，发现宏观上，无论怎么变换，也找不到破绽，所以必须从微观上观察，也就是$A^TAx$的结构，先定义$A^T$
 
 $$ 
 	A^T = \begin{bmatrix} a_1^T \\ \vdots \\ a_n^T \end{bmatrix}
@@ -29,12 +29,12 @@ $$
 
 对任意$i \in (1, \cdots, n) $,有 $a_i^TAx=0$。因为$Ax \ne 0$,所以只有两种情况
 
-1. $\forall x \in (1,\cdots, n), a_i = 0$
-2. $a_i \perp Ax$
+1. $a_i = 0$
+2. $a_i \ne 0, a_i \perp Ax$
 
-对于上面的第一种情况，$A^TA=0_{n \times n}, A = 0_{m \times n}$，$\forall x \in N(A^TA), x \in N(A)$成立。
+对于情况2，因为$a_i, Ax \in C(A)$且$Ax \ne 0, a_i \ne 0$,所以$a_i^TAx \ne 0$，所以只有一种情况，
 
-对于上面的第二种情况，不可能，因为$a_i \in C(A)$,所以$a_i$不垂直$Ax$。
+$$\forall i \in (1, \cdots, n), a_i \equiv 0$$
 
-所以，$$ \exists x, Ax \ne 0, A^TAx=0 $$不成立，所以原命题成立，证毕！
+得到$A \equiv 0$，与原命题矛盾。所以，$ \exists x, Ax \ne 0, A^TAx=0 $不成立，所以原命题成立，证毕！
 

@@ -9,11 +9,11 @@ $A^TA$矩阵在线性代数应用中经常会用到，这次讨论的内容是�
 1. $\forall x \in N(A), x \in N(A^TA)$
 2. $\forall x \in N(A^TA), x \in N(A)$
 
-第一点，显而易见，$Ax = 0 \Rightarrow A^Ax=0$。
+第一点，显而易见，$Ax = 0 \Rightarrow A^TAx=0$。
 
 关键是第二点，当$A^TAx=0$时，是否存在$Ax \ne 0$?这里使用反正法。假设,
 
-$$ \exists x, Ax \ne 0, A^TAx=0 $$
+$$ \exists x, A^TAx=0, Ax \ne 0 $$
 
 经过一番折腾，发现宏观上，无论怎么变换，也找不到破绽，所以必须从微观上观察，也就是$A^TAx$的结构，先定义$A^T$
 

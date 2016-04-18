@@ -46,19 +46,14 @@ A = \begin{bmatrix} b_1 & \cdots & b_n \end{bmatrix}
 	}_C = BC
 $$	 
 
-观察C的形状，假设$n \gt m$,那么C是一个宽行的矩阵，也就有如下结论
+观察C的形状，假设$m \gt n$，那么C是一个宽行的矩阵，也就有如下结论:
 
 $$
-	\exists x \ne 0 使得 Cx = 0 
+	m = rank(A) = rank(BC) \le rank(C) \le n
 $$
 
-两边同时乘以$B$，不会改变x
+上面现象与假设矛盾，所以假设不成立，假设的逆命题$n \ge m$成立。
 
-$$
-	\exists x \ne 0 使得 BCx = 0 = Ax
-$$
-
-由于A列向量线性独立，所以上面x=0恒成立，与假设矛盾，所以m>n不成立。
 
 同样，用A表示B
 
@@ -81,13 +76,17 @@ B = \begin{bmatrix} a_1 & \cdots & a_m \end{bmatrix}
 	}_D = AD
 $$	 
 
-现在只剩下$n \lt m$的情况，只是$D$是一个宽矩阵，类似上面的方法，同样可以推导矛盾。
+现在$n \ge m$，所以$D$是一个宽矩阵，有如下结论：
 
-所以，只有$m = n$这一种情况，在上面两种情况下均成立，证毕。
+$$
+	n = rank(B) = rank(AD) \le rank(D) \le m
+$$
+
+所以，综合上面结论，只有$m = n$这一种情况，在上面两种情况下均成立，证毕。
 
 上面的证明再一次的演示了矩阵表示的简洁与优美，可以将问题简化，方便观察特征，找到解决办法。
 
-
+P.S.: $rank(AD) \le rank(D)$的证明参考[线代随笔09-矩阵乘法与秩](/linear-algebra/2016/04/17/linear-algebra-09-BTA-inverse.html)。
 
 ## 维度过多必定冗余
 在空间$R^n$中，任意两子空间$V$和$W$，如果$dim(W)+dim(V) \gt n$，那么V，W交集必有非0向量。

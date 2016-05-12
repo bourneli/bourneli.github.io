@@ -31,7 +31,7 @@ $$
 计算$\frac{\partial f(x)}{\partial x_k}$，只有当$i=k$或$j=k$的项保留，其他的都是常数，
 
 $$
-	\frac{\partial f(x)}{\partial x_k} = \sum_{j=1}^n{x_jc_{kj}} + \sum_{i=1}^n{x_ic_{ik}} 
+	\frac{\partial f(x)}{\partial x_k} = \sum_{j=1}^n{c_{kj}x_j} + \sum_{i=1}^n{c_{ik}x_i} 
 	                                   = r_k^Tx + c_k^Tx = (r_k^T + c_k^T)x \qquad (2)
 $$
 

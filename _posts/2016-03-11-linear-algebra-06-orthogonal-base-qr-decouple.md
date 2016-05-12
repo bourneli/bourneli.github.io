@@ -7,7 +7,7 @@ categories: [linear-algebra]
 如果矩阵的列向量互相正交，且长度为1，那么该矩阵称之为标准正交矩阵，不要求矩阵满秩。如果满秩，即Q是方正，称之为**正交矩阵(Orthogonal Matrix)**。标准正交矩阵有很多好的性质：
 
 * $Q^TQ=I$，不要求Q为方阵。
-* 如果$Q$为方阵，$Q^TQ=QQ^T=I \Rightarrow Q^T=Q^{-1}$。
+* 如果$Q$为方阵，$Q^TQ=QQ^T=I \Rightarrow Q^T=Q^{-1}$ (利用投影$P=QQ^T=I$证明)。
 * $Qx$不改变x的长度。$\|Qx\|^{2}=(Qx)^TQx=x^TQ^TQx=x^Tx=\|x\|^2$
 * $Q$不改变向量点积。$Qx \cdot Qy = (Qx)^TQy=x^TQ^TQy=x^Ty$ 
 

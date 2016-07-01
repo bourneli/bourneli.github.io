@@ -64,26 +64,29 @@ val rst1 = sc.union(idList.map(id => dependency(id, data))).reduceByKey(_+_)
 {% endhighlight %}
 上面的代码虽然减少了每个dependency RDD的血缘，但是shuffle还是很慢且不稳定。shuffle阶段有时需要几分钟，有时需要数个小时。不知道是不是由于需要同时容纳数个rdd，占据了大量内存，然后不断出现错误，进而导致重新计算，最终shuffle变得不稳定，这一点还有待证实。
 
-## 版本3：去掉shuffle，空间换时间
-前两个版本的问题都出在shuffle阶段，最后痛定思痛，决定去掉shuffle。大致思路是将每一轮每个点的dependency对象存储在节点中，该值在计算单轮dependency时不参与任何计算，只在计算完后，与当前的合并，这样就华丽的避开了shuffle过程。简化代码如下：
-
+## 版本3：RDD合并取代graphx leftJoin合并
+版本2的问题是需要在内存中保存过多的中间节点，导致内存被拜拜浪费掉。所以，版本3在每一轮都有一个按点合并结果的过程。一开始使用graph对象的joinVertices方法合并中间结果，但是会导致每一轮的时间莫名奇妙得增加，而且是呈指数增长（这个坑后面可能还会遇到）。改用RDD规避，避免了这个问题。简化代码如下：
+ 
 {% highlight scala %}
 // 计算依赖
-def dependency(id:Int, g:Graph[Double, Double]):Graphx[(Double, Double)] = { ... }  
+def dependency(id:Int, g:Graph[Double, Double]):RDD[(VertexId, Double)] = { ... }  
 val data:Graph[Double, Double] = ... // loading from hdfs
 
 val sampleVertices = data.vertices.takeSample(10)
-var dep = data
+var rst: RDD[(VertexId, Double)] = null
 for(source <- sampleVertices) {
-    val oldDep = dep // 迭代使用图对象，同时最多只要两个图对象
-    dep = dependency(source, dep).persist(cacheLevel)  
-    oldDep.unpersist(false) // 释放之前的资源，已经无用
+    val newDep = dependency(source, data).persist(cacheLevel)
+	if (null == rst) {
+		rst = newDep
+	} else {
+		rst = (rst union newDep).reduceByKey(_ + _).persist(cacheLevel)
+	}	
 }
-val rst = dep.mapVertices((_, attr) => attr * verticesNum / sampleSize) // 合并
+val finalRst = rst.mapVertices((_, attr) => attr * verticesNum / sampleSize) // 合并
 {% endhighlight %}
 
 ## 计算效果
-经过上面几轮优化后，效果有了大幅度提升。还有一些优化的小技巧，这里捎带提一下，比如使用EdgePartition2D的边分区策略可以进一步提高执行效率，合理的释放和缓存图对象也可以减少血缘，减少重算时间。现在使用100个executor，2核，每个executor 14G内存，对450,000,000点，1,253,792,736 边的图，随机迭代5轮，只需要**279分钟**，且大部分时间用在第一轮迭代（耗时209分钟），随后的几轮的迭代会显著递减，当达到第5轮时，只需要5分钟。可能在前面1,2轮中缓存了大部分图结构，导致了后面计算的加速。
+经过上面几轮优化后，效果有了大幅度提升。还有一些优化的小技巧，这里捎带提一下，比如使用EdgePartition2D的边分区策略可以进一步提高执行效率，合理的释放和缓存图对象也可以减少血缘，减少重算时间。现在使用100个executor，2核，每个executor 14G内存，对450,000,000点，1,253,792,736 边的图，随机迭代5轮，需要一千多分钟，每轮平均200分钟。
 
 ## spark优化总结
 spark底层api优化其实就两点 ：
@@ -91,7 +94,7 @@ spark底层api优化其实就两点 ：
 1. **减少血缘** 合理仔细的利用persisit，checkpoint和unpersisit，缓存中间变量并去掉无用的对象，避免过长的血缘重计算与合理的利用内存。但是，如果不适当的释放内存，可能导致没有缓存对象，仍然导致过长的血缘，这一点可以参考[Spark优化那些事(1)-请在action之后unpersisit!](http://bourneli.github.io/scala/spark/2016/06/17/spark-unpersist-after-action.html)。
 2. **减少shuffling** shuffling需要网络开销，能少就少，能不用就不用。
 
-上面的迭代过程其实就遵循上面两个原则进行的，最后得到了不错的效果。
+上面的迭代过程其实就遵循上面两个原则进行的，最后得到了不错的效果。graphx的api使用起来还是有一定的坑，后面还需要多注意，并且研究graphx底层实现细节，希望可以发现版本3中的那个坑。
 
 ## 参考资料
 * [Brandes的快速介数计算][1]

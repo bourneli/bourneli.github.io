@@ -4,7 +4,7 @@ title:  "网络传播-理论篇"
 categories: [graph,sns]
 ---
 
-最近看了一些网络传播扩展方面的内容，总结了网络扩散的数学理论以及相关实验。本博文主要介绍[网络扩散的数学模型][2]，下篇记录相关实验以及数据。
+最近看了一些网络传播扩展方面的内容，总结了网络扩散的数学理论以及相关实验。本博文主要介绍[网络扩散的数学模型][2]，下篇记录[相关实验][4]。
 
 先定义一些符号，
 
@@ -103,4 +103,5 @@ p
 [2]:http://chengjun.github.io/network-diffusion/#/2
 <!--- Sigmoid wiki -->
 [3]:https://en.wikipedia.org/wiki/Sigmoid_function
-
+<!--- 实验 -->
+[4]:/graph/sns/2016/07/13/graph-diffusion-experiment.html

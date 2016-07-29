@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "线代随笔14-向量基到傅里叶级数"
+title:  "线代随笔14-正交向量到傅里叶级数"
 categories: [linear-algebra]
 ---
 

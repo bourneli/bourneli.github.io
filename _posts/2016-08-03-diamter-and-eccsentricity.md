@@ -38,8 +38,6 @@ $$
 \Delta(G) = dist(x,y) \le dist(x,v)+dist(v,y) \le  2  *\epsilon(v)
 $$
 
-可以构造一个路径$x \rightarrow v \rightarrow y$，得到一个新的直径，小于当前直径，得到矛盾。
-
 证毕！
 
 

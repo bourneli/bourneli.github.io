@@ -70,7 +70,7 @@ $$
 **推论3** 紧凑的直径上下界
 
 $$
-	\max_{v \in V}\epsilon_L(v)\le \Delta(G) \le \min(\max_{v \in V}\epsilon_U(v), 2*\min_{v \in V}\epsilon_L(v))
+	\max_{v \in V}\epsilon_L(v)\le \Delta(G) \le \min(\max_{v \in V}\epsilon_U(v), 2*\min_{v \in V}\epsilon_U(v))
 $$
 
 

@@ -46,7 +46,7 @@ $$
 $\epsilon(v)$是特定点$v$离心率，$w(\in V)$是任意其他点(包括$v$),$v$相对于$w$固定
 
 $$
-	\max(\epsilon(v) - dist(v,w), dist(v,w)) \le \epsilon(w) \le dist(v,w) + \epsilon(v)
+	\max(\epsilon(v) - dist(v,w), dist(v,w)) \le \epsilon(w) \le dist(w,v) + \epsilon(v)
 $$
 
 证明：
@@ -54,16 +54,16 @@ $$
 证明上界， 根据离心率展开，设$x$是$w$离心率的另一个端点
 
 $$
-	\epsilon(w) \le dist(w,v)+dist(v,x) \le d(v,w) + \epsilon(v) 
+	\epsilon(w) \le dist(w,v)+dist(v,x) \le d(w,v) + \epsilon(v) 
 $$
 
 小于当前离心率，得到矛盾，所以假设不成立。
 
-证明下界，其中$dist(v,w)$与$epsilon(w)$的关系易得，略去。$\epsilon(v)-dist(v,w)$与$epsilon(w)$关系，可以将$-dist(v,w)$移到不等式另外一边，得到形式与上届一致，证明方法一致，省略。
+证明下界，其中$dist(v,w)$与$\epsilon(w)$的关系易得，略去。$\epsilon(v)-dist(v,w)$与$\epsilon(w)$关系，可以将$-dist(v,w)$移到不等式另外一边，得到形式与上届一致，证明方法一致，省略。
 
 证毕！
 
-**定义3** $\epsilon_L(v)$为当前点离心率下界，$\epsilon_L(v)$为离心率上界。
+**定义3** $\epsilon_L(v)$为当前点离心率下界，$\epsilon_U(v)$为离心率上界。
 
 **推论3** 紧凑的直径上下界
 

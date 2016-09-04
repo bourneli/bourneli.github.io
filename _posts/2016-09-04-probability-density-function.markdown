@@ -42,7 +42,8 @@ $$
 3. 常系数随机变量的概率密度关系为公式(3)
 
 
-## 参考资料
+**参考资料**
+
 * [一个网友的概率公式证明](http://blog.sina.com.cn/s/blog_67914f2901019p3v.html)
 * [概率密度乘法Wiki](https://en.wikipedia.org/wiki/Probability_density_function)
 * [Stack Exchange先关问题](http://math.stackexchange.com/a/275668/261790)

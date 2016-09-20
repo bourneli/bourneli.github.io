@@ -8,14 +8,14 @@ categories: [probability,LSH]
 
 ## $(r_1,r_2,p_1,p_2)-sensitive$
 
-LSH的核心工作原理就是找到一组hash函数，它们必须符合$(r_1,r_2,p_1,p_2)-sensitive$条件。这类函数定义：函数$H=\lbrace h: S \rightarrow U \rbrace$，对于任意一种距离度量方法D，任意向量$q,v \in S$
+LSH的核心工作原理就是找到一组hash函数，它们必须符合$(r_1,r_2,p_1,p_2)-sensitive$条件。这类函数定义：$H=\lbrace h: S \rightarrow U \rbrace$，对于任意一种距离度量方法D，任意向量$q,v \in S$
 
 $$
 	如果 v \in B(q, r1), P(h(v)=h(q)) \ge p1 \\
 	如果 v \notin B(q, r2), P(h(v)=h(q)) \le p2
 $$
 
-其中$B(v,r) = \lbrace q \in X \| d(v,q) \le r \rbrace$，表示以向点$v$为中心，距离为r范围内的所有点的集合。
+其中$B(v,r) = \lbrace q \in X \| d(v,q) \le r \rbrace$，表示以点$v$为中心，距离为r范围内的所有点的集合。
 
 上面定义的直观解释就是Locality Sensitive Hashing。
 即将相距较近($r_1$以内)的向量hashing到一起的概率要大($p_1$较接近1)；距离较远($r_2$以外，且$r_2 > r_1$)的对象hashing到一起的概率小($p_2$较接近0)。
@@ -37,10 +37,13 @@ $$
 	\end{align}
 $$
 
-$p_1,p_2与r_1,r_2$可以根据应用精度和数据范围，人工估算。通过碰撞公式，完美的解决了$w$的取值问题，非常具有指导意义。
+$p_1,p_2与r_1,r_2$可以根据应用精度和数据范围，人工估算。通过碰撞公式，完美的解决了$w$的取值问题，非常具有指导意义。但是，上述不等式不是永远成立的，部分$p_1,p_2与r_1,r_2$的组合可能导致不等式下界大于上界。
 
 
 ## 强化LSH函数
+
+假设有一个$(r_1,r_2,p_1,p_2)-sensitive$函数族$F$，可以通过**逻辑和**的方法构造一个新的函数族$F'$。假设$f \in F'$并且$f_i \in F, i = 1,2,\cdots r$。
+
 
 ## LSH的工作流程
 

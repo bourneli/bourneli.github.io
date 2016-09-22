@@ -32,7 +32,7 @@ $$
 
 $$
 	\begin{align}
-	\frac{r1}{w} \le c_1, \frac{r2}{w} \ge c_2 &\Rightarrow \frac{r1}{g^{-1}(p_1)} \le w \le \frac{r2}{g^{-1}(p_2)} \\
+	\frac{r_1}{w} \le c_1, \frac{r_2}{w} \ge c_2 &\Rightarrow \frac{r_1}{g^{-1}(p_1)} \le w \le \frac{r_2}{g^{-1}(p_2)} \\
 	&\Rightarrow \frac{5}{g^{-1}(0.95)} \le w \le \frac{50}{g^{-1}(0.1)} \\
 	\end{align}
 $$
@@ -66,7 +66,7 @@ L取范围内最小的整数，节省空间。上面不等式不保证永远成�
 如果不实用增强hash函数，确实只需要一个hash表。但是，这样可能不够精确，一般实际上是创建$k \times L$个hash表，每一个表的hash函数均是使用标准正太分布随机生成投影向量和均匀分布生成随机偏移量。每k个hash表为一组，称为一个“桶”，L个桶。生成过程如下：
 
 <div align='center'>
-	<img src='/img/lsh_create_table.png' />
+	<img src='/img/lsh_create_table_2.png' />
 </div>
 
 由于随机的原因，可能有些比较近的对象在一个桶内会hash到不同的位置，但是我们给了L个桶，如果他们真的相似，总有可能在其他桶里面hash到同一个位置（逻辑和操作，该桶内所有hash值均相等）。
@@ -83,7 +83,7 @@ $$
 其中$a,b \in R^k$,且$a_i,b_i是随机整数$。$p$是一个很大的质素，通常$p=2^{32}-5$；n是源数据条数。如果只使用1个hash函数，n较大时，冲撞的概率是不可以忽略；使用两个hash函数，冲撞的概率基本可以忽略不计。整个过程示意图如下：
 
 <div align='center'>
-	<img src='/img/lsh_query.png' />
+	<img src='/img/lsh_query_2.png' />
 </div>
 
 合并后，同一个key下的所有对象就是比较近的对下。然后根据事先设定的相似度阀值，得到阀值以内的相似对象。

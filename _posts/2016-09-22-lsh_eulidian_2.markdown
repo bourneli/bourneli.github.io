@@ -42,7 +42,7 @@ $p_1,p_2与r_1,r_2$可以根据应用精度和数据范围，人工估算。通�
 
 ## 强化LSH函数
 
-假设有一个$(r_1,r_2,p_1,p_2)-sensitive$函数族$F$，可以通过**逻辑和**的方法构造一个新的函数族$F'$。
+强化LSH函数，可以不改变LSH算法的情况下，通过增加运算量，提高精度。假设有一个$(r_1,r_2,p_1,p_2)-sensitive$函数族$F$，可以通过**逻辑和**的方法构造一个新的函数族$F'$。
 
 假设$f \in F'$并且$f_i \in F, i = 1,2,\cdots r$。令$f(x)=f(y)$为$f_i(x)=f_i(y),i = 1,2,\cdots,r$，此时$F'$是$(r_1, r_2, p_1^r, p_2^r) - sensitive$。如果$p_2$较小,$p_1$较大，可以通过此操作将其进一步的缩小，同时有不会将$p_1$变得太小。
 
@@ -63,7 +63,7 @@ L取范围内最小的整数，节省空间。上面不等式不保证永远成�
 
 ### 创建hash表
 
-如果不实用增强hash函数，确实只需要一个hash表。但是，这样可能不够精确，一般实际上是创建$k \times L$个hash表，每一个表的hash函数均是使用标准正太分布随机生成投影向量和均匀分布生成随机偏移量。每k个hash表为一组，称为一个“桶”，公有L个桶。生成过程如下：
+如果不实用增强hash函数，确实只需要一个hash表。但是，这样可能不够精确，一般实际上是创建$k \times L$个hash表，每一个表的hash函数均是使用标准正太分布随机生成投影向量和均匀分布生成随机偏移量。每k个hash表为一组，称为一个“桶”，L个桶。生成过程如下：
 
 <div align='center'>
 	<img src='/img/lsh_create_table.png' />
@@ -73,16 +73,25 @@ L取范围内最小的整数，节省空间。上面不等式不保证永远成�
 
 ### 对象聚集
 
-hash表创建完毕后，实际上是给每个对象一堆标记，实际上相识的对象并没有在一起。这里需要将这些相识的对象聚到一起。所以根据标记，生成唯一id，然后根据id，使用map reduce操作，将相识的对象汇聚到一起。生成id使用两段hash函数$h_1$和$h_2$,计算方法如下
+hash表创建完毕后，只是给每个对象一堆($k \times l$)标记，实际上相似的对象并没有在一起。需要将这些标记，每k个合并为一个id，然后按照id聚合。生成id使用两段hash函数$h_1$和$h_2$,计算方法如下
 
 $$
-	h_1 = \\
-	h_2 = 
+	h_1 = a \bullet v \bmod p \bmod n \\
+	h_2 = b \bullet v \bmod p
 $$
 
-避免一段hash函数产生冲突。
+其中$a,b \in R^k$,且$a_i,b_i是随机整数$。$p$是一个很大的质素，通常$p=2^{32}-5$；n是源数据条数。如果只使用1个hash函数，n较大时，冲撞的概率是不可以忽略；使用两个hash函数，冲撞的概率基本可以忽略不计。整个过程示意图如下：
 
 <div align='center'>
 	<img src='/img/lsh_query.png' />
 </div>
 
+合并后，同一个key下的所有对象就是比较近的对下。然后根据事先设定的相似度阀值，得到阀值以内的相似对象。
+
+## 参考文献
+
+* [LSH在欧式空间的应用(1)--碰撞概率分析](/probability/lsh/2016/09/15/lsh_eulidian_1.html)
+* [Mining of Massive Datasets,第二版， 3.6.3节](http://www.mmds.org/)
+* $E^2$LSH 0.1 User Manual, Alexandr Andoni, Piotr Indyk, June 21, 2005, Section 3.5.2
+* (2004)Locality-Sensitive Hashing Scheme Based on p-Stable.pdf
+* (2008)Locality-Sensitive Hashing for Finding Nearest Neighbors

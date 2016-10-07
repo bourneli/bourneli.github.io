@@ -46,4 +46,4 @@ $$
 
 * [一个网友的概率公式证明](http://blog.sina.com.cn/s/blog_67914f2901019p3v.html)
 * [概率密度乘法Wiki](https://en.wikipedia.org/wiki/Probability_density_function)
-* [Stack Exchange先关问题](http://math.stackexchange.com/a/275668/261790)
+* [Stack Exchange相关问题](http://math.stackexchange.com/a/275668/261790)

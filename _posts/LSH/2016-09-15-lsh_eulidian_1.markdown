@@ -26,7 +26,7 @@ $$
 设向量$p,q \in R^n$，并且$u=\lVert p-q\rVert_2$，p与q投射到任意向量$a$的概率如下，
 
 $$
-	p(u) = Pr(h(p) = h(q)) = 2\int_{0}^{w}\frac{1}{u}f(\frac{t}{u})(1-\frac{t}{w})dt
+	p(u,w) = Pr(h(p) = h(q)) = 2\int_{0}^{w}\frac{1}{u}f(\frac{t}{u})(1-\frac{t}{w})dt
 $$
 
 上面概率公式很突然，先别慌是怎么过来的，后面慢慢道来，我们先直奔主题:该概率的解析解。这样就可以观察w,u与概率的关系，控制碰撞概率。$f(x)$是稳定分布的概率密度函数，该分布只有在欧式距离和曼哈顿距离才有解析解，否则没有。好在我们关心的是欧式空间，所以可以得到解析解。欧式空间中，$f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}$是标准正在分布的概率密度函数。完整推导如下，
@@ -34,11 +34,11 @@ $$
 
 $$
 \begin{align}
-	p(u) = f(u,w) &= 2(\int_{0}^{w}\frac{1}{u}f(\frac{t}{u})dt - \int_{0}^{w}\frac{1}{u}f(\frac{t}{u})\frac{t}{w}dt) \\
-				  &= 2(\int_{0}^{w}f(\frac{t}{u})d\frac{t}{u} - \int_{0}^{w}\frac{1}{u\sqrt{2\pi}}e^{-\frac{t^2}{2u^2}}\frac{t}{w}dt) \\
-				  &= 2(\int_{0}^{\frac{w}{u}}f(x)dx - \frac{-u}{\sqrt{2\pi}w}\int_{0}^{w}e^{-\frac{t^2}{2u^2}}d(-\frac{t^2}{2u^2})) \\
-				  &= 2(\frac{1}{2} - F(-\frac{w}{u}) + \frac{u}{\sqrt{2\pi}w}e^{-\frac{t^2}{2u^2}}|^w_0) \\
-				  &= 2(\frac{1}{2} - F(-\frac{w}{u}) + \frac{u}{\sqrt{2\pi}w}(e^{-\frac{w^2}{2u^2}}-1)) \\
+	p(u)&= 2(\int_{0}^{w}\frac{1}{u}f(\frac{t}{u})dt - \int_{0}^{w}\frac{1}{u}f(\frac{t}{u})\frac{t}{w}dt) \\
+        &= 2(\int_{0}^{w}f(\frac{t}{u})d\frac{t}{u} - \int_{0}^{w}\frac{1}{u\sqrt{2\pi}}e^{-\frac{t^2}{2u^2}}\frac{t}{w}dt) \\
+        &= 2(\int_{0}^{\frac{w}{u}}f(x)dx - \frac{-u}{\sqrt{2\pi}w}\int_{0}^{w}e^{-\frac{t^2}{2u^2}}d(-\frac{t^2}{2u^2})) \\
+        &= 2(\frac{1}{2} - F(-\frac{w}{u}) + \frac{u}{\sqrt{2\pi}w}e^{-\frac{t^2}{2u^2}}|^w_0) \\
+        &= 2(\frac{1}{2} - F(-\frac{w}{u}) + \frac{u}{\sqrt{2\pi}w}(e^{-\frac{w^2}{2u^2}}-1)) \\
 		 
 \end{align}
 $$

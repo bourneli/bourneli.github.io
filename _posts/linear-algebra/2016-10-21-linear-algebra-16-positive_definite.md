@@ -32,7 +32,7 @@ categories: [linear-algebra]
 A对称，那么其必然可以对角化，有$A=Q \Lambda Q^T$,且将正定性质代入，具有$x^TQ \Lambda Q^Tx \gt 0$，其中$\Lambda$是对角矩阵，对角元素为$\lambda_1, \cdots, \lambda_n$。令$y = Q^Tx=\begin{bmatrix}y_1 && \cdots && y_n\end{bmatrix}^T$。所以，最后有
 
 $$
-	y\Lambda y^T>0 \Rightarrow \sum_{i=1}^{n}\lambda y_i^2 > 0
+	y\Lambda y^T>0 \Rightarrow \sum_{i=1}^{n}\lambda_i y_i^2 > 0
 $$
 
 上述不等式需要对任意不等于0向量的x成立，由于$Q^T$是标准正交矩阵，也就是对任意不等于0向量的y成立，所以$\lambda_i > 0$必须横成立。
@@ -45,7 +45,7 @@ $$
 
 **证明**
 
-A对称，所以有$A=Q \Lambda Q^T$，A的特征值全部为0$\lambda_i > 0$，所以有$A=Q \Lambda^{\frac{1}{2}} (\Lambda^{\frac{1}{2}})^T Q^T$，令$R=(Q \Lambda^{\frac{1}{2}})^T$,且$R^{-1}=Q\Lambda^{-\frac{1}{2}}$，那么有R可逆且$A=R^TR$。
+A对称，所以有$A=Q \Lambda Q^T$。因为条件$\lambda_i > 0$，所以有$A=Q \Lambda^{\frac{1}{2}} (\Lambda^{\frac{1}{2}})^T Q^T$，令$R=(Q \Lambda^{\frac{1}{2}})^T$,且$R^{-1}=Q\Lambda^{-\frac{1}{2}}$，那么有R可逆且$A=R^TR$。
 
 **证毕**
 
@@ -79,7 +79,7 @@ $$
 \end{align}
 $$
 
-所以$A_k$正定，推出$\|A_k\| \gt 0$。
+所以$A_k$所有特征值大于0（利用$4 \Rightarrow 3$），所以$\|A_k\| \gt 0$。
  
 
 **证毕**

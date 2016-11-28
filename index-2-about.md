@@ -20,3 +20,4 @@ permalink: /about/
 ## 爱好
 运动，包括篮球，跑步，健身和游泳。看电影，各种好看的电影。
 
+{% include jiathis_comment.html %}

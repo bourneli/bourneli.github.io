@@ -28,3 +28,15 @@ categories: [maven,scala]
 	</dependency>
 
 出现的问题就是最后生成的jar包中没有那个需要打包的jar包，等于没有打包。不过不会报错，比较难以发现，我是根据warning中的信息才顺藤摸瓜找到解决方案的。
+
+
+## 更新第三jar包遇到的坑
+
+如果第三方jar包有更新，需要更新本地库对应的jar包，也就是需要手动删除**~/.m2/repository**里面对应的jar包缓存，否则更新不会成功。官方文档描述如下
+
+	The local repository is the local cache where all artifacts needed for the
+	build are stored. By default, it is located within the user's home directory
+	(~/.m2/repository) but the location can be configured in ~/.m2/settings.xml
+	 using the <localRepository> element.
+
+官方文档可以参考[这里](http://maven.apache.org/plugins/maven-install-plugin/)。

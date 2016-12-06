@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Intelli上Scala的Maven项目打包本地第三方jar包
+title:  Intellij上Scala的Maven项目打包本地第三方jar包
 categories: [maven,scala]
 ---
 

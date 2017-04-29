@@ -189,7 +189,7 @@ $$
 \lambda_{i, \begin{Bmatrix} 1\\2 \end{Bmatrix}} = -\frac{\mu}{2m} \pm \sqrt{\frac{\mu}{m}(\frac{\mu}{4m}-\frac{k_i}{\mu})} \qquad (20)
 $$
 
-因为 $\mu>0$且$m>0$，根据 $\lambda_{i, \begin{Bmatrix} 1 \\ 2 \end{Bmatrix}} < 0$恒成立，并且很容得到 $\|Re \lambda_{i,1}
+因为 $\mu>0$且$m>0$，所以 $\lambda_{i, \begin{Bmatrix} 1 \\ 2 \end{Bmatrix}} < 0$恒成立，并且很容得到 $\|Re \lambda_{i,1}
 \| \le \|Re\lambda_{i,2}
 |$。所以比较两种情况下的收敛速度由 $\|Re  \lambda_{i,1}\|$ 与 $\|Re \lambda_{i,0}\|$ 决定。
 

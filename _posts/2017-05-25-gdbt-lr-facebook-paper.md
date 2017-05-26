@@ -29,7 +29,9 @@ Facebook](https://pdfs.semanticscholar.org/daf9/ed5dc6c6bad5367d7fd8561527da30e9
 <img src='/img/gbdt_lr_experment_stat.png' />
 </div>
 
-可以看到，除了召回率指标，其他所有指标均是gbdt > gbdt + lr > lr，这一点符合我之前的设想。当然，我的数据集也比较有限，不能以偏概全。但是从实验数据来看，这些算法在各项指标没有质的区别，所以实际工作中，找到重要的特征才是头等大事；算法方面，选择能够快速上线，够用就行，后面可以迭代优化。
+可以看到，除了召回率指标，其他所有指标均是gbdt > gbdt + lr > lr，这一点符合我之前的设想。当然，我的数据集也比较有限，不能以偏概全。但是从实验数据来看，这些算法在各项指标没有质的区别，所以实际工作中，找到重要的特征才是头等大事；算法方面，选择能够快速上线，够用就行，后面可以迭代优化。上述实验直接使用R xgboost的函数完成gbdt编码。之前没有发现该函数，基于gbm包的gbdt数，写了一个编码函数，重复造轮子，:-(。整个实验工程参考[这里](https://github.com/bourneli/data-mining-papers/blob/master/GBDT/gpdt-lr-exp/model_comparation.R)。
+
+
 
 
 ## 其他命题纪要

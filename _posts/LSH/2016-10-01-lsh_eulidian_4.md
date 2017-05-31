@@ -39,11 +39,11 @@ LSH算法需要合并L个hash桶。最开始是先将L个桶计算完后，然�
 
 这个问题可以参考[StackoverFlow中问题][4]。在**优化1-分布合并hash桶**时，结果需要调用partitionBy(new HashPartitioner(parts))，将结果转成ShuffledRDD。因为distinct操作可以最大化利用ShuffledRDD的，减少不必要的重新排序和网络传输。
 
-## 优化6-提前过滤
+## 优化6-提前过滤 (2017-5-23更新)
 
 由于多个rdd merge时会很多内存和时间，所以每次计算一个桶rdd即过滤。此过程的开销是每个rdd与原始数据join两次。但是，适当做好partition（参考[这里](http://bourneli.github.io/scala/spark/2017/03/19/spark-job-stage-task-smart-join.html)），只有一次join需要shuffle，另外一次不需要。最终性能得到了巨大提升。原来1亿乘30的数据计算时会OOM，优化后同样配置可以稳定在6小时完成。2千万行乘以30列的数据，优化前需要3小时，优化后只需要1小时。spark 2.1中添加了欧式距离LSH[BucketedRandomProjectionLSH](https://github.com/apache/spark/blob/branch-2.1/mllib/src/main/scala/org/apache/spark/ml/feature/BucketedRandomProjectionLSH.scala)，但是没有做太多优化，同样配置，该算计算上面提到的1亿乘以30的数据集时，出现OOM异常。
 
-## 参考代码
+## 参考代码 (2017-5-23更新)
 
 下面的实现是离线计算版本，在线计算版本需要后台服务器开发，无法使用spark实现。但是如果掌握了整个LSH原理，在线版本不会太困难。
 

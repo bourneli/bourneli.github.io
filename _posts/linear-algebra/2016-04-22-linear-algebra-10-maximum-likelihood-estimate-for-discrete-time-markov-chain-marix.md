@@ -45,7 +45,7 @@ $$
 证毕！
 
 
-**性质2** 特征值$\|\lambda\| \le 1$ 
+**性质2** 特征值$\lvert\lambda\rvert \le 1$
 
 证明：
 
@@ -53,13 +53,13 @@ $$
 
 $$
   s([A^2]_l) = s(\sum_{i=1}^n a_ia_{li}) = \sum_{i=1}^n s(a_i)a_{li}
-             = \sum_{i=1}^n a_{li} = 1 
+             = \sum_{i=1}^n a_{li} = 1
 $$
 
 $[A^2]_{ij} \ge 0$，因为每个元素都是由大于0的元素相乘并相加得到，不可能得到负数。所以$A^2$是马尔科夫矩阵。同理，$A^3=A^2A$也是马尔科夫矩阵，最后可以归纳到任意$A^n$也是马尔科夫矩阵矩阵。
 
 
-根据特征值的幂和特征向量$x$,可得$u=A^nx=\lambda^nx$，假设存在$|\lambda| > 1$，那么$u \rightarrow \infty$。但是$A^n$是马尔科夫矩阵矩阵，所以$A_{ij}\le 1$，所以$A^nx$不可能无限大，与已知矛盾，所以假设不成立。
+根据特征值的幂和特征向量$x$,可得$u=A^nx=\lambda^nx$，假设存在$\lvert \lambda \rvert > 1$，那么$u \rightarrow \infty $。但是$A^n$是马尔科夫矩阵矩阵，所以$A_{ij}\le 1$，所以$A^nx$不可能无限大，与已知矛盾，所以假设不成立。
 
 证毕！
 
@@ -75,7 +75,7 @@ $$
 
 因为其他特征值据对值小于1，所以最后就收敛为$c_1x_1$。
 
- 
+
 
 
 **例2** 人口迁移例子，两个城市人口迁移
@@ -153,11 +153,11 @@ $$
 \begin{align}
 	L(p)&= \prod_{l=1}^m{Pr(X(l)^{n(l)} = x(l)^{n(l)})} \\
 		&= \prod_{l=1}^m{\left( Pr(X(l)_1 = x(l)_1) \prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{n(l)_{ij}}} \right)} \\
-		&= \left(\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right) 
+		&= \left(\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right)
 		   \left(\prod_{l=1}^m{ \prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{n(l)_{ij}}}}\right) \\					 
 		&= \left(\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right)  
 		   \left(\prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{\sum_{l=1}^m{n(l)_{ij}}}} \right) \\
-		&= \left(\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right) 
+		&= \left(\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right)
 		   \left(\prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{N_{ij}}} \right) \\
 \end{align}
 $$
@@ -167,21 +167,21 @@ $$
 
 $$
 \begin{align}
-	\max_{p} {\ln{L(p)}} 
+	\max_{p} {\ln{L(p)}}
 		&= \max_{p} {
 				\ln{
-					\left( 
-						\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right) 
-						\left(\prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{N_{ij}}} 
+					\left(
+						\prod_{l=1}^m{Pr(X(l)_1 = x(l)_1)}\right)
+						\left(\prod_{i=1}^k\prod_{j=1}^k{p_{ij}^{N_{ij}}}
 					\right)
 				}
 			} \\
 		&= \max_{p} {
-			\left( 
-				\sum_{l=1}^m \ln{\left( Pr(X(l)_1 = x(l)_1) \right)} 
-				+ \sum_{i=1}^k\sum_{j=1}^k{N_{ij}\ln(p_{ij})} 
+			\left(
+				\sum_{l=1}^m \ln{\left( Pr(X(l)_1 = x(l)_1) \right)}
+				+ \sum_{i=1}^k\sum_{j=1}^k{N_{ij}\ln(p_{ij})}
 			\right)} \\
-\end{align}	
+\end{align}
 $$
 
 上面的目标函数比较简单，但是不要忘记，有约束条件：
@@ -190,7 +190,7 @@ $$
 	\sum_{j=1}^k{p_{ij}} = 1, i \in (1,\cdots,k), 且 p_{ij} \ge 0
 $$
 
-带有约束的最优化是无法直接求导计算的，因为计算结果可能不遵守约束，所以，需要将约束去掉，转成等价的无约束优化问题，使用[拉格朗日乘子数](https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0)，变化结果如下： 
+带有约束的最优化是无法直接求导计算的，因为计算结果可能不遵守约束，所以，需要将约束去掉，转成等价的无约束优化问题，使用[拉格朗日乘子数](https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0)，变化结果如下：
 
 
 $$
@@ -230,7 +230,7 @@ $$
 
 $$
 	p_{ij} = \frac{N_{ij}}{\lambda_i} = \frac{N_{ij}}{\sum_{j=1}^k{N_{ij}}}
-$$ 
+$$
 
 推导完毕！
 
@@ -242,7 +242,7 @@ $$
 {% highlight scala%}
 import org.jblas.DoubleMatrix
 
-val transitionData:RDD[Vector] = ... // 
+val transitionData:RDD[Vector] = ... //
 val n = ... // 状态个数
 
 // 统计转换次数
@@ -286,5 +286,3 @@ println(transitionMatrixRate.toString("%.4f","","",",","\n"))
 * [马尔科夫链](https://zh.wikipedia.org/wiki/%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE)
 * [拉格朗日乘子式](https://zh.wikipedia.org/wiki/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E4%B9%98%E6%95%B0)
 * [Note: Maximum Likelihood Estimation for Markov Chains](http://www.stat.cmu.edu/~cshalizi/462/lectures/06/markov-mle.pdf)
-
-

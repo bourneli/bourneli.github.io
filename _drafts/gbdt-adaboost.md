@@ -101,8 +101,30 @@ $$
     \\
     &= e^{-\beta}  \sum_{i=1}^N w_i^{(m)} - e^{-\beta} \sum_{i=1}^N w_i^{(m)}I(y_i \ne G(z_i))  
        + e^{\beta} \sum_{i=1}^N w_i^{(m)} I(y_i \ne G(x_i)) \\
-    &= e^{-\beta}  \sum_{i=1}^N w_i^{(m)} + (e^{\beta} - e^{-\beta}) \sum_{i=1}^N w_i^{(m)}I(y_i \ne G(z_i)) \qquad (10.11)
+    &= (e^{\beta} - e^{-\beta}) \sum_{i=1}^N w_i^{(m)}I(y_i \ne G(x_i)) + e^{-\beta}  \sum_{i=1}^N w_i^{(m)}  \qquad (10.11)
   \end{align}
 $$
 
 目标函数(10.11)是关于标量$\beta$与函数$G$的函数,可以求偏导，计算最优值。
+
+对于变量$G$而言，10.11是一个线性函数，只需要下面的值最小即可
+
+$$
+  G_m = \arg \min_{G} \sum_{i=1}^N w_i^{(m)}I(y_i \ne G(x_i)) \qquad (10.10)
+$$
+
+但是需要系数$e^{\beta} - e^{-\beta}$大于0,即$\beta > 0$，
+
+对于变量$\beta$而言，对(10.11)求偏导，并且等于0，
+
+$$
+  \beta_m = \frac{1}{2}\log \frac{1-err_m}{err_m},其中err_m = \frac{\sum_{i=1}^Nw_i^{(m)}I(y_i \ne G_m(x_i))}{\sum_{i=1}^Nw_i^{(m)}}
+$$
+
+对于任何一个$G$,随机分类器的错误率为0.5，所以可以和容易保证$err_m < 0.5$，这样保证$\beta_m > 0$了。这里有鸡生蛋诞生鸡的问题，到底是谁保证了谁，其实是互相保证了，是不是有点类似“死锁”
+
+$$
+  err_m < 0.5 \Leftrightarrow \beta_m > 0
+$$
+
+后面继续进行演化权重weight，就可以完全推导AdaBoost的形式了。

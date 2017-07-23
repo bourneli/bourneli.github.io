@@ -262,13 +262,11 @@ body.pdf h1 {
   letter-spacing: 0;
   margin-top: 0;
   font-size: 48px;
-  text-transform: uppercase;
-  font-weight: normal;
+  text-transform: none;
 }
 body.pdf h2 {
   letter-spacing: 0;
   text-transform: uppercase;
-  font-style: italic;
   font-weight: normal;
 }
 body.pdf h3 {
@@ -278,7 +276,7 @@ body.pdf h3 {
 }
 body.pdf h3+p {
   float: left;
-  width: 78%;
+  width: 84%;
 }
 body.pdf blockquote {
   top: 40px;
@@ -286,7 +284,7 @@ body.pdf blockquote {
   position: absolute;
 }
 body.pdf ul li {
-  width: 33%;
+  width: 28%;
   float: left;
 }
 body.pdf ul dl {
@@ -299,11 +297,11 @@ body.pdf ul dl dt {
   margin: 0 0 .75em;
 }
 body.pdf ul dl dd {
-  padding: 0 2em 0 0;
+  padding: 0 4em 0 0;
 }
 body.pdf ol {
   float: left;
-  width: 79%;
+  width: 84%;
   margin: .7em 0 0;
 }
 body.pdf ol li {
@@ -322,8 +320,6 @@ body.pdf dl {
   margin: .7em 0 0;
   page-break-inside: avoid !important;
   display: block;
-  width: 79%;
-  float: left;
 }
 body.pdf dl strong {
   float: right;
@@ -345,7 +341,7 @@ body.pdf dl em {
   content: ".";
 }
 body {
-  font-family: 'Hoefler Text', Times New Roman, Times, serif;
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, serif;
   color: #444;
 }
 h1,
@@ -353,7 +349,15 @@ h2,
 h3,
 h4,
 ul dl dt {
-  font-family: Futura, "Century Gothic", AppleGothic, sans-serif;
+  font-family: 'Helvetica Neue Light', 'Helvetica', Arial, serif;
+}
+h1:before {
+  content: "+";
+  font-weight: bold;
+  color: orange;
+  margin: -1em 0 0 -0.5em;
+  position: relative;
+  top: -0.4em;
 }
 .container {
   margin: 0 auto;
@@ -402,25 +406,23 @@ h1 {
   padding: 0;
   font-size: 36px;
   letter-spacing: -1px;
-  font-weight: normal;
+  font-weight: bold;
 }
 h2 {
   margin: 0;
   padding: 0;
   font-size: 18px;
-  font-style: italic;
   letter-spacing: -1px;
-  font-weight: normal;
+  font-weight: bold;
 }
 h3 {
-  margin: 0px 20px;
+  margin: 0;
   padding: 0 0 .5em;
   font-size: 150%;
-  font-style: italic;
-  font-weight: normal;
+  font-weight: bold;
 }
 h3+p {
-  margin: .6em 0 16px;
+  margin: 0 0 16px;
   padding: 0;
   display: block;
   font-size: 104%;
@@ -430,7 +432,6 @@ ul {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: table;
 }
 ul li {
   margin: 0;
@@ -470,8 +471,9 @@ ol li:nth-child(1) {
   border-top: none;
 }
 dl {
-  display: inline-block;
-  width: 78%;
+  float: left;
+  display: block;
+  width: 75%;
   margin: 0;
   padding: 0;
 }
@@ -494,6 +496,32 @@ dl em {
   font-size: 110%;
   margin: .15em 0 .5em;
   font-style: bold;
+}
+dl dd li {
+  width: 100%;
+  margin: 0 1em 1em;
+  list-style-type: square;
+}
+dl dt {
+  display: block;
+  clear: both;
+}
+dl dt {
+  border-top: 1px solid #ccc;
+  padding-top: 1em;
+}
+h3 + dl dt:first-child {
+  border: 0;
+  padding-top: 0;
+}
+dl dd p:first-child {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+ul li dt {
+  border: 0;
+  padding-top: 0;
 }
 #footer {
   display: none;
@@ -544,15 +572,11 @@ dl em {
   h1 {
     margin-top: 0;
     font-size: 48px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: normal;
+    letter-spacing: -1px;
   }
   h2 {
     text-transform: uppercase;
-    font-style: italic;
-    letter-spacing: 2px;
-    font-weight: normal;
+    letter-spacing: 3px;
   }
   h3 {
     float: left;
@@ -560,10 +584,10 @@ dl em {
   }
   h3+p {
     float: left;
-    width: 78%;
+    width: 84%;
   }
   ul li {
-    width: 33%;
+    width: 28%;
     float: left;
   }
   ul dl dt {
@@ -572,11 +596,11 @@ dl em {
     margin-bottom: .75em;
   }
   ul dl dd {
-    padding: 0 2em 0 0;
+    padding: 0 4em 0 0;
   }
   ol {
     float: left;
-    width: 79%;
+    width: 84%;
     margin: .6em 0 0;
   }
   ol li {
@@ -590,9 +614,6 @@ dl em {
   ol li:nth-child(2),
   ol li:nth-child(3) {
     border-top: none;
-  }
-  dl {
-    margin: .5em 0 0;
   }
   dl strong {
     float: right;
@@ -642,7 +663,7 @@ dl em {
 </dl></li>
 <li><dl>
 <dt>技术文档</dt>
-<dd>累计开发200+篇技术文档，并发表在公司内部或<a href="http://bourneli.github.io/">外网</a>技术博客。</dd>
+<dd>累计编写200+篇技术文档，并发表在公司内部或<a href="http://bourneli.github.io/">外网</a>技术博客。</dd>
 </dl></li>
 </ul>
 

@@ -4,6 +4,28 @@ title:  GBDT前世今生(I)---AdaBoost
 categories: [ML,GDBT]
 ---
 
+详细探讨GDBT之前，不得不提AdaBoost，因为GDBT是根据AdaBoost的算法抽象总结得到。AdaBoost是一个迭代模型，用于二元分类，标签取值1或-1。其主要思想是每一轮，通过不断调整错误样本的权重，将上一轮错误的样本权重提高，这样不断的从错误中学习，最后得到一个比较好的模型。十分类似人类学习过程----根据过去错误的经验，不断总结，然后做得更好。形式化的给出AdaBoost算法，
+
+---
+Input: N数据量，M迭代轮数
+1. 初始化每个数据的权重$w_i=\frac{1}{N},i = 1,2,\cdots,N$
+2. For m = 1 to M:
+  (a) 使用权重$w_i$抽样,得到数据集$D_m$;使用$D_m$学习模型$G_m(x)$
+  (b) 计算
+    $$
+      err_m = \frac{\sum_{i=1}^N w_i I(y_i \ne G_m(x_i))}{\sum_{i=1}^N w_i}
+    $$
+  (c) 计算$\alpha_m = \log((1-err_m)/err_m)$
+  (d) 更新$w_i \leftarrow w_i e^{\alpha_m \bullet I(y_i \ne G_m(x_i))}, i = 1,2,\cdots,N$
+3. 最后模型$G(x) = sign\left[ \sum_{m=1}^M \alpha_m G_m(x)   \right]$
+---
+
+AdaBoost算法中，2(c)和2(d)是不是很神奇，为什么这样计算权重和单个模型系数。
+
+
+这里2017-7-24
+
+
 
 AdaBoost解决二元分类问题，模型形式为叠加模型，即最终模型是由一个个基础模型叠加的形式组合起来，形式如下
 
@@ -33,7 +55,7 @@ $$
 对于大多数的损失函数$L$和基础函数$b$，优化(3)都是需要消耗巨大的计算资源和优化技巧，因为有m个基础函数，不同基础函数的系数还需要不断协调才能达到最优。但是，学习单一的基础函数是比较简单的，
 
 $$
-  \min_{\{\beta_m,\gamma_m\}_1^M} {\sum_{n=1}^N L\left(y_i, \beta b(x_i;\gamma) \right)} \qquad(4)
+  \min_{\beta,\gamma} {\sum_{n=1}^N L\left(y_i, \beta b(x_i;\gamma) \right)} \qquad(4)
 $$
 
 
@@ -83,7 +105,7 @@ $$
   (\beta_m,G_m) =  \arg \min_{\beta, G} \sum_{n=1}^N e^{-y_i(f_{m-1}(x_i) + \beta G(x_i)) }
 $$
 
-令$w_i^{(m)} = e^{-y_if_{m-1}(x_i)}$，可以理解为样本$i$在低$m$轮的权重,并且该权重只与1到m-1轮函数以及$x_i,y_i$有关，与第m轮函数无关，那么即使一个常量，
+令$w_i^{(m)} = e^{-y_if_{m-1}(x_i)}$，可以理解为样本$i$在第$m$轮的权重,并且该权重只与1到m-1轮函数以及$x_i,y_i$有关，与第m轮函数无关，
 
 $$
   (\beta_m,G_m) =  \arg \min_{\beta, G} \sum_{n=1}^N  w_i^{(m)} e^{-\beta y_i G(x_i) }, G(x) \in \{-1,1\} \qquad (10.9)

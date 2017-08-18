@@ -1,16 +1,16 @@
 ---
 layout: post
-title:  在Windows上愉快可玩耍TensorFlow
+title:  如何在Windows上与TensorFlow愉快的玩耍？
 categories: [deep-learning,tensorflow]
 ---
 
-公司的集群有部署好的TensorFlow，但是使用起来不是特别方便，尤其对于初学者，每次部署并等待调度非常耗时。对于初学者，由于很多概念不太熟悉，希望立刻输入就有反馈，这样的学习效率会比较高，所以还是在本地安装了TensorFlow。
+公司的集群有部署好的TensorFlow，但是使用起来不是特别方便，每次部署并等待调度非常耗时。对于初学者，由于很多概念不太熟悉，希望立刻输入就有反馈，这样的学习效率会比较高，所以还是在本地安装了TensorFlow。
 
-我是在Windows Anaconda环境下安装的TensorFlow，这样可以避免影响本地的python环境。个人认为，Anaconda可以类比为一个“虚拟机”，用的时候启动，那么该环境中的各种依赖都可以使用，不用的时候就可以关掉。同时，我使用pycharm关联Anaconda环境下的TensorFlow，这样就可以在本地执行很多TensorFlow官网的样例程序，非常赞。
+我是在Windows Anaconda环境下安装的TensorFlow，这样可以避免影响本地的python环境。个人认为，Anaconda类似“虚拟机”，用的时候启动，该环境中的各种依赖都可以使用，不用的时候就关掉。同时，使用pycharm关联Anaconda环境下的TensorFlow，可以在本地执行很多TensorFlow官网的样例程序，非常赞。
 
 ### 安装步骤
 
-具体的安装步骤可以参考[官网指导](https://www.tensorflow.org/install/install_windows)，下面简要记录在Anaconda环境下的安装过程。
+具体安装步骤可以参考[官网指导](https://www.tensorflow.org/install/install_windows)，下面简要记录在Anaconda环境下的安装过程。
 
 * 安装[Anaconda](https://www.continuum.io/downloads)。
 * 制作Anacode TensorFlow环境（Anaconda可以同时支持多个环境，之前我就安装了cntk的环境），命令如下

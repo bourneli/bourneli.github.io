@@ -40,7 +40,7 @@ sess.run(tf.local_variables_initializer())
 sess.run(auc,[...])
 {% endhighlight %}
 
-修改后，问题迎刃而解，感谢[王晓曦](https://github.com/vshallc)同学指定迷津。
+修改后，问题迎刃而解。感谢[xiaoxiwang(王晓曦)](https://github.com/vshallc)同学指点迷津，尽快走出了这个坑，才有时间王者上钻石。
 
 
 

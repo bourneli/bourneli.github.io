@@ -41,7 +41,7 @@ categories: [Reinforcement-Learning]
 
 
 
-### 第一讲笔记
+## 第一讲笔记
 
 
 非贪心算法，牺牲当前利益，获取长远利益

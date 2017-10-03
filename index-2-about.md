@@ -11,12 +11,15 @@ permalink: /about/
 业余时间爱写点技术博客，主要包括新学的技术，或记录疑难问题的解决方案，方便后面回顾。更多工作信息，参考我的[简历](/resume_public.html)。如果想来鹅厂从事数据挖掘工作，欢迎将简历投递到bourneli@tencent.com。
 
 ### 业余爱好
-主要是运动，包括篮球，跑步，健身和游泳。其他爱好是看电影和NBA，我是马刺球迷，Go Spurs Go！
+
+* 打篮球，看NBA，马刺球迷，Go Spurs Go！
+* 徒手健身爱好者
+* 跑步和游泳
+* 看电影
 
 <div align='center' style='margin-bottom:15px'>
 <img src='/img/myself.jpg' />
 </div>
-
 
 
 {% include jiathis_comment.html %}

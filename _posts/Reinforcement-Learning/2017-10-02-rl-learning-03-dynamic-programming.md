@@ -47,7 +47,7 @@ $$
 \pi^{\prime} \ge \pi, if \space  v_{\pi^\prime}(s) \ge v_{\pi}(s),\forall s \in S
 $$
 
-所以，上面知道了如何评估值函数，现在可以考虑得到更好的策略$\pi^\prime$。如何得到，方法很简单——贪心。对于确定性的策略，即$\pi(a|s)=1$，有$v_{\pi}(s) = q_{\pi}(s,a)$。使用贪心策略，
+所以，上面知道了如何评估值函数，现在可以考虑得到更好的策略$\pi^\prime$。如何得到，方法很简单——贪心。对于确定性的策略，即$\pi(a \vert s)=1$，有$v_{\pi}(s) = q_{\pi}(s,a)$。使用贪心策略，
 
 $$
 \pi^\prime(s)=\arg \max_a q(s,a)
@@ -59,7 +59,7 @@ $$
 v_{\pi^\prime}(s)=q(s, \pi^\prime(s)) = \max_a q_\pi(a,s) \ge q_\pi(a,s) = v_\pi(s)
 $$
 
-最后一定会收敛，因为存在最优解，那么一定有上界，所以如果迭代如果一点点在变好，那么一定会达到最优解，可以通过下面的示例图形象的刻画整个过程。
+最后一定会收敛，因为存在最优解，那么一定有上界，所以迭代一点点在变好，那么一定会达到最优解。可以通过下面的示例图形象的刻画整个过程。
 
 <div style='display: block;margin: auto;width:80%'>
 	<img src='/img/policy_evaluation_improvement.png' />

@@ -159,4 +159,4 @@ self.train = optimizer.minimize(self.loss)
 现在处理序列数据，多了一项常规武器---自编码[RNNAutoEncode](https://github.com/bourneli/deep-learning-notes/blob/master/series_autoencode/python/src/embedding/RNNAutoEncode.py)。当然，需要改进的地方应该还有很多，需要在实践中不断打磨，验证其效果。
 
 
-
+### 最后感谢**bolansu**,**[xiaoxiwang](https://github.com/vshallc)**和**yasarwang**的帮助，给了笔者很多启发。

@@ -48,10 +48,16 @@ sampleData是一个DataSet，每一行有两个数据：key和value。由于构�
 
 解决方法是在foreachPartition之前，repartition整个DateSet，确保每个分区的数据不要太大。推荐控制在1千左右。正如上面的列子，笔者将sampleData分为500个分区，每个分区1000条，那么sampleData的总数为50万左右。但是，如果数据总量太大，单个分区过小，会导致分区数过大，这样需要提高driver的内存，否则会导致driver内存溢出。
 
+
+
+
 ### 实践3：控制在线更新并发
 
 Redis一般提供在线服务，在更新Redis的同时，它可能在前端提供服务。所以在写Redis时，不能使用太多executor。否则会使得QPS过高，影响在线服务响应，甚至导致Redis瘫痪。推荐的实践方法是提高数据的分区数量，确保每个partition的数量较小，然后逐步提高并发数量（executor数量）。观察在不同数量executor下，并发写入Redis的QPS，直到QPS达到一个可以接受的范围。
 
+### 进一步改进
+
+上述方案在5千万行数据，每行value小于100Byte的情况下，在我们的redis环境，写入时qps稳定在15000左右，不影响线上服务。这个方案被woliwang同学质疑，主要观点是如果数据量达到亿，十亿级别，如果还是设置每个partition 1000个数据量，会有上百万个partition，容易导致driver OOM。的确，上面的方案还有改进空间，可以对每个partition进一步分组，比将partition控制在10万数据量，然后每次批量写入1000数据，按顺序写100次 就可以写完，这样driver就不需要维护上百万的partition信息，同时也可以控制写入速率。
 
 ### 最后
 实践是检验真理的唯一标准。上面的几点实践在不同Redis集群下，具体数值可能不一样，但原理不变。希望这些总结对你有用。如果自己想搭建spark+Redis环境，推荐VPS供应商[Vultr](https://www.vultr.com/?ref=7245986)，无需购买服务器，随时随地可用，物美价廉。

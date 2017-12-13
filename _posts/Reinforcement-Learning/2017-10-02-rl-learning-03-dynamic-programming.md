@@ -108,3 +108,7 @@ v_{k+1} = \max_{a \in A}  R^a + \gamma P^av_k
 $$
 
 在得到最优解后，最优策略可以直接根据贪心的方法得到。此算法与策略评估比较类似，不同在于更新值时，使用贪心策略，而不是获取期望。同样，与Policy Evulation和Policy Improvement类似，Value Iteration的最终值与初始状态有关，可以参考[算法实现和实验](https://github.com/bourneli/reinforcement-learning/blob/master/DP/Value%20Iteration.ipynb)。
+
+总结前面三个算法，
+
+![](/img/rl/sync_dp_summary.png)

@@ -5,19 +5,19 @@ categories: [Reinforcement-Learning]
 ---
 
 
-这一讲的David授课视频与Sutton教材有所不同，将教材的5,6,7三章的前面一部分合并为一讲，主要内容介绍model free的policy evluation或model free prediction。Model Free，就是没有模型，不知道转移矩阵$P^{\pi}$,也不知道Reward矩阵。而这也是常见的情况，动态规划的条件还是太苛刻了。没有模型，就需要在经验中学习，本讲介绍两大方法
+这一讲的David授课视频与Sutton教材有所不同，将教材的5,6,7三章的前面一部分合并为一讲，主要内容介绍无模型的策略评估。没有模型就需要在经验中学习，本讲介绍两大方法
 
-* Monte-Carlo Learing
-* Temporal-Difference Learing
+* Monte-Carlo Evaluation
+* Temporal-Difference Evaluation
 
-它们都是基于样本数据，学习状态函数，并且这两个算法有内在联系。
+它们都是基于样本数据评估状态函数，并且有很强的内在联系。
 
 
 ### Monte-Carlo学习算法
 
 **主要特点**
 
-* MC直接重阶段性经验中学习。数据必须为一段一段的形式。
+* MC直接重阶段性经验中学习。数据必须为阶段（Episode）形式。
   * 每一段数据必须有结束。
 * MC无需知道转移矩阵和奖励向量。
 * MC不会用其他预估的值函数计算当前值函数
@@ -42,7 +42,7 @@ MC策略评估使用回报的经验均值作为值函数的无偏估计。评估
 * First-Visit
 * Every-Visit
 
-下面以First-Visit为例，Every-Visit唯一的区别是在每个阶段内，状态s每次出均统计而不是只统计第一次，
+下面以First-Visit为例，Every-Visit唯一的区别是在每个阶段内，状态s每次出均统计而不是只统计第一次，first-Visit的效率已经很低了，Every-Visit的效率更低。
 
 * 评估$v(s)$
 * 状态s第一次出现的t步  
@@ -79,14 +79,14 @@ $$
 V(S_t) = V(S_t) + \alpha(G_t - V(S_t))
 $$
 
-以上这种形式，可以非常方便的与TD算法比较。
+以上这种形式，可以非常方便的与TD算法比较。具体实现代码和实验效果参考[这里](https://github.com/bourneli/reinforcement-learning/blob/master/MC/MC%20Prediction.ipynb)。
 
 ### Temporal-Difference学习方法
 
 核心思想
 
 * TD无需知道转换矩阵和奖励向量
-* TD可以从不完全的阶段数据学习，而不是想MC那样必须等待每个阶段结束在学习
+* TD可以从不完全的阶段数据学习，而不像MC那样必须等待每个阶段结束在学习
 * TD通过其他的状态函数估计，更新当前的状态函数
 
 
@@ -96,35 +96,34 @@ $$
 V(S_t) = V(S_t) + \alpha(R_{t+1} + \gamma V(S_{t+1}) - V(S_t))
 $$
 
-其中，$R_{t+1} + \gamma V(S_{t+1})$是TD目标，该值区别于非固定MC更新算法的$G_t$，它不需要等待阶段结束，直接通过下一个状态更新即可，所以非常方便。$\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$称为TD error。
+其中，$R_{t+1} + \gamma V(S_{t+1})$是TD目标，该值区别于非固定MC更新算法的$G_t$，它不需要等待阶段结束，直接通过下一个状态更新即可，所以非常方便。$\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$称为TD error。具体实现代码和实验数据参考[这里](https://github.com/bourneli/reinforcement-learning/blob/master/TD/TD%20Prediction.ipynb)。
 
 TD与MC的比较
 
 * 数据区别：TD无需等待阶段数据完成，既可学习；MC必须等待阶段数据完成；
 * 计算效率：TD实时性好于MC，TD收敛更快；
-* 模型效果：MC无偏估计，方差大；TD有偏估计，但是方差小。
+* 模型效果：MC无偏估计，方差大；TD有偏估计，但是方差小，可以参考[10000组21点实验对比](https://github.com/bourneli/reinforcement-learning/blob/master/TD/TD%20Prediction.ipynb)。
 
 **Monte-Carlo，Temporal-Difference和Dynamic Programming更新比较**
 
 
 
-MC更新方式：等待阶段数据结束，一直统计到结束为止，更新公式
-
+MC更新方式：需要阶段结束，$G_t$统计到结束为止，
 $$
-V(s_t) = V(S_t) + \alpha(G_t-V(S_t))
+V(s_t) = V(s_t) + \alpha(G_t-V(S_t))
 $$
 
 ![](/img/mc_back_up.png)
 
-TD更新方式：只需要后面一个状态的信息即可，无需采样到底，更新公式
+TD更新方式：只需要后面一个状态的信息即可，无需采样到底 ，
 
 $$
-V(s_t) = V(s_t) + \alpha(R_{t+1} + \gamma V(S_{t+1}) - V(s_t))
+V(s_t) = V(s_t) + \alpha(R_{t+1} + \gamma V(s_{t+1}) - V(s_t))
 $$
 
 ![](/img/td_back_up.png)
 
-DP更新方式：需要全量信息，即转换矩阵和转换奖励，更新公式
+DP更新方式：需要全量信息，即转换矩阵和转换奖励，
 
 $$
 V(s_t) = E_{\pi}[R_t + \gamma V(s_{t+1})]
@@ -178,16 +177,16 @@ $$
 
 ### $\lambda$回报
 
-n-step TD中，什么n最好呢？一种中庸的办法是将所有n都试一遍，然后计算平均值，更合理的方法，计算加权平均值，定义如下
+n-step TD中，什么n最好呢？一种中庸的办法是将所有n都试一遍，然后计算平均值。另一种方法是计算加权平均值，权重定义定义如下
 
 $$
 G_t^{\lambda} = (1-\lambda)\sum_{n=1}^{T-t-1} \lambda^{n-1} G_t^{(n)}  + \lambda^{T-t-1} G_t , \lambda \in [0,1]
 $$
 
-系数之和为1,即$\lim_{n \rightarrow\infty}(1-\lambda)\sum_{n=1}^\infty \lambda^{n-1} = 1$。将该定义推广到TD，可表示为$TD(\lambda)$，更新方法为
+系数之和为1，越近，权重越高,即$\lim_{n \rightarrow\infty}(1-\lambda)\sum_{n=1}^\infty \lambda^{n-1} = 1$。将该定义推广到TD，可表示为$TD(\lambda)$，更新方法为
 
 $$
 V(S_t) \leftarrow V(S_t) + \alpha (G_t^{\lambda} - V(S_t))
 $$
 
-TD(0)就是之前提到的TD，TD(1)就是MC。这种方法也称之为前向视图，教材中还讨论到后向视图，以及两者的统一形式，太过于理论，后面实践中，如果遇到具体问题，在回到这里，这一讲的内容先总结到这里！
+TD(0)就是之前提到的TD，TD(1)就是MC。这种方法也称之为前向视图，教材中还讨论到后向视图，该视图主要是用于高效算法，无需等待结束，每一次交互，均可以计算出现有阶段z之前的的所有（或部分）$G_t^\lambda$。

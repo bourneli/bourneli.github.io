@@ -7,16 +7,15 @@ categories: [Reinforcement-Learning]
 这一讲合并了Sutton教材5,6,7章的后半部分。上一讲主要介绍MC，TD的值函数计算。即给定policy，估计值函数$V(s)$。这一讲，介绍求解最优policy，大概内容如下：
 
 * MC $\epsilon$-贪心求解策略
-* SARSA: TD(0) On-Policy $\epsilon$贪心求解策略
-* Q-Learing: TD(0) Off-Policy $\epsilon$贪心求解策略
-* SARSA和Q-Learning的通用版本
+* SARSA: TD On-Policy $\epsilon$贪心求解策略
+* Q-Learning: TD Off-Policy $\epsilon$贪心求解策略
 
 ### On/Off-Policy的区别
 
 * On-Policy学习：直接通过目标策略$\pi$采样，学习目标策略$\pi$
 * Off-Policy学习：通过行为策略$\mu$采样，学习目标策略$\pi$
 
-举个例子，学习打王者荣耀，On policy是在有用户中随机抽取并学习，得到最优策略。Off Policy只从职业选手中抽样并学习。直觉上后者可以得到更好的策略。
+On-Policy是Off-Policy的一个特例，目标策略和行为策略一致。Off-Policy可以通过其他更优策略，解决当前问题，比如学习人类专家的行为，更为灵活。
 
 ### $\epsilon-$贪心探索
 
@@ -92,13 +91,13 @@ $$
 
 ![](/img/sarsa_back_up_diagram.png)
 
-更新公式为
+更新公式
 
 $$
 Q(S,A) \leftarrow Q(S,A) + \alpha(R + \gamma Q(S^\prime, A^\prime) - Q(S,A))
 $$
 
-算法伪代码如下，
+算法伪代码，
 
 ![](/img/sarsa_algo.png)
 
@@ -119,13 +118,13 @@ Sarsa可以通用化扩展为$Sarsa(\lambda)$,目标使用$TD(\lambda)$替换$TD
 
 ![](/img/q_learning_back_up_diagram.png)
 
-其中，S,A,R是根据$\epsilon$贪心策略生成，$S^\prime,A^\prime$用来更新贪心策略。其更新公式为
+其中，S,A,R是根据$\epsilon$贪心策略生成，$S^\prime,A^\prime$用来更新贪心策略。更新公式
 
 $$
 Q(S,A) \leftarrow Q(S,A) + \alpha(R+\gamma \max_{a^\prime}Q(S^\prime,a^\prime) - Q(S,A))
 $$
 
-算法伪代码如下，
+算法伪代码，
 
 ![](/img/q_learning_algo.png)
 

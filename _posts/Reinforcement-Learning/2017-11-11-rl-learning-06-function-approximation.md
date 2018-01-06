@@ -13,7 +13,7 @@ categories: [Reinforcement-Learning]
 
 Function Approximation可以用监督学习来求解，可以转成回归问题。那么，我们常用的监督学习算法就可以派上用场，比如线性回归，SVM，决策树，GBDT，随机森林，kNN，DNN等等。但是，强化学习需要不断与环境变交互，作出快速调整，所以学习过程是一个递增且阶段性的过程。而前面提到的算法中，线性回归和DNN比较适合这个场景，因为它们**可导** ，使用SGD求解，而SGD的求解过程巧合与强化学习过程吻合。DNN最近非常流行，与强化学习结合起来称为**深度强化学习** 。DNN+Q-Learning称为DQN，可以提供端到端的解决方案，最著名的例子就是DQN打游戏Atari，直接输出入Atari游戏画面，DQN控制行为，很多游戏上都可以比人类玩家表现出色，下面是DQN在一个Atari游戏中的表现，绿色是DQN，黄色是一般规则AI。
 
-![](/img/DQN_Atari_demo.gif)
+![](/img/dqn_atari_game.gif)
 
 
 

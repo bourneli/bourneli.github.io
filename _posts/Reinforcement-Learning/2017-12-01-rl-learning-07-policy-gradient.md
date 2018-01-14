@@ -126,7 +126,7 @@ RINFORCE算法方差很大，可以使用评论家(Critic)评估行为值函数�
 
 ## Bias和避免方法
 
-Actor-Critic算法存在bias，因为Critic是biasd，所以根据biased的数据学习的策略也是biased。幸运的是，如果适当的选取Critic的近似函数，可以确保不整个过程not biased。近似函数$Q_w(s,a)$需要满足下面两点，
+Actor-Critic算法存在bias，因为Critic是biasd，所以根据biased的数据学习的策略也是biased。幸运的是，如果适当的选取Critic的近似函数，可以确保整个过程not biased。近似函数$Q_w(s,a)$需要满足下面两点，
 
 1. $\nabla Q_w(s,a) = \nabla_\theta \ln \pi_\theta (s,a)$，行为值函数的梯度向量与值函数的梯度向量相同。
 2. $\varepsilon = E[(Q^{\pi_\theta}(s,a)-Q_w(s,a))^2]$，$w$用于最小化$\varepsilon$。
@@ -145,7 +145,7 @@ Actor-Critic算法存在bias，因为Critic是biasd，所以根据biased的数�
 * $Q_w(s,a) \approx Q^{\pi_\theta}(s,a)$
 * $\pi_\theta(s,a) \approx \pi (s,a)$
 
-这不是增加了计算负担了？其实不是，会议TD方法评估值函数，每次更新方法为
+这不是增加了计算负担了？其实不是，回忆TD方法评估值函数，每次更新方法为
 
 $$
 \delta^{\pi_\theta} = r + \gamma V^{\pi_\theta}(s^\prime) - V^{\pi_\theta}(s)
@@ -174,15 +174,4 @@ $$
 参考资料
 
 * [《强化学习》第七讲 策略梯度](https://zhuanlan.zhihu.com/p/28348110)
-
-
-
-
-## 2017-1-8分享总结
-
-这次分享，谈到了批处理中的技巧Experience Replay。该技巧的主要作用是降低了Variance。比如在围棋中，可能第195手与第196手，带来的收益值函数是巨大的，但是在状态空间上，他们的差异基本上可以忽略不计。所以，如果直接就这样学习，那么target的variance巨大，肯定无法得到较好的拟合。不过，通过在之前的Experience中随机抽取，可以规避这个问题。实验证明，DQN在Atari游戏上的效果有很大提升。
-
-
-
-
 

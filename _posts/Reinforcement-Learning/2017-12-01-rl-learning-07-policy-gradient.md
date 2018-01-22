@@ -170,8 +170,11 @@ $$
 ![](\img\pg_summary.png)
 
 
+## 实验
+
+[小车爬坡（连续版本）](https://github.com/bourneli/reinforcement-learning/blob/master/PolicyGradient/Continuous%20MountainCar%20Actor%20Critic%20Solution.ipynb)中的数据显示，如果不用RBF作特征，收敛会比较慢，并且最优解也比较差。RBF虽然计算量大，但是在维度较少清苦下，对收敛速率的影响还是非常明显。
+
 
 参考资料
 
 * [《强化学习》第七讲 策略梯度](https://zhuanlan.zhihu.com/p/28348110)
-

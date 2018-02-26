@@ -97,9 +97,6 @@ $$
 Q(S,A) \leftarrow Q(S,A) + \alpha(R + \gamma Q(S^\prime, A^\prime) - Q(S,A))
 $$
 
-算法伪代码，
-
-![](/img/sarsa_algo.png)
 
 为什么说是TD(0)？因为只看了后面一步既可以更新Q函数。为什么是On-Policy？因为完全通过策略$\pi$的样本，没有使用其他策略样本。SARSA算法伪代码如下，
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  应该定期更新自己的简历
-categories: [Job]
+categories: [Job,markdown]
 ---
 
 

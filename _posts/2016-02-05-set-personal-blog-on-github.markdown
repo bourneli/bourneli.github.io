@@ -2,7 +2,7 @@
 layout: post
 title:  "配置github个人主页踩过的坑"
 date:   2016-02-05 10:31:28 +0800
-categories:
+categories: [markdown]
 ---
 
 最近年末，终于有时间配置自己的github个人主页。踩了一些坑，总结一下，希望对其他同学有帮组。

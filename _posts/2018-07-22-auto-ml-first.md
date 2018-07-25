@@ -6,7 +6,7 @@ categories: [automl]
 
 ## 缘起
 
-Automated Machine Learning(后面简称**AutoML**)这项技术在上个世纪90年代就开始在工业界出现，可以参考文章[Automated Machine Learning: A Short History](https://blog.datarobot.com/automated-machine-learning-short-history),不过打那之后就没有什么太大动静，可能是应为都是商业化软甲，不利于交流。直到最近一两年，google借着深度学习的春风在AutoML上发力，先后发表了多篇相关paper以及blog，
+Automated Machine Learning(后面简称**AutoML**)这项技术在上个世纪90年代就开始在工业界出现，可以参考文章[Automated Machine Learning: A Short History](https://blog.datarobot.com/automated-machine-learning-short-history),不过打那之后就没有什么太大动静，可能是因为都是商业化软件，不利于交流。直到最近一两年，google借着深度学习的春风在AutoML上发力，先后发表了多篇相关paper以及blog，
 
 * [Using Machine Learning to Explore Neural Network Architecture](http://ai.googleblog.com/2017/05/using-machine-learning-to-explore.html)（2017.5）
 
@@ -28,13 +28,13 @@ AutoML是什么，可以参考[Why AutoML Is Set To Become The Future Of Artific
 更加接地气的分享，可以参考2018年6月[第四范式涂威威：AutoML技术现状与未来展望](https://link.zhihu.com/?target=https%3A//v.qq.com/x/page/y071886cmu6.html)的分享。虽然没有谈论很多技术细节，但是可以高屋建瓴的了解当前Automated Machine Learning研究现状。映像比较深的有以下几点，
 
 * 自动机器学习，本质上就是机器学习。
-* 强化学习解决AutoML问题，使用更难的技术解决相对简单的问题。可能不是一个很好的方向。
+* 强化学习解决AutoML问题，使用更难的技术解决相对简单的问题。可能不是一个很好的方向，虽然Google在尝试。
 * 对数据本身做特征，以及配置做特征，然后训练预估模型的效果。模型效果的模型。
-* AutoML解决问题动态变化的场景
+* AutoML应该解决问题动态变化的场景。
 * 图像领域的应用，网络结构的搜索。
 * 研究方向：效率和泛华
 
-更多细节还是观看原始视频，50分钟左右，有些地方可以快进。
+更多细节建议观看视频，50分钟不到，有些地方可以快进。
 
 
 
@@ -47,7 +47,7 @@ AutoML是什么，可以参考[Why AutoML Is Set To Become The Future Of Artific
 * [Clarifai's image recognition service](https://www.clarifai.com/)  提供多种场景的视觉识别解决方案。
 * [第四范式先知系统](https://www.4paradigm.com/product/prophet) 由数据核心、算法核心、生产核心三大模块组成，覆盖了人工智能在生产中的各应用环节，使用AutoML技术降低AI开发门槛，帮助企业更加高效地在AI时代从战略、策略到执行全面智能化。 
 
-通过上面几家主流AutoML厂商，笔者觉得AutoML的工业界应用的大致思路就是将**AI技术云端化**，类似当年云计算将计算能力云端化一样。 
+通过上面几家主流AutoML厂商，笔者觉得AutoML的商业模式的是将**AI技术云端化**，类似当年云计算将计算能力云端化一样。类似Google开源TensorFlow这样的案例，在AutoML领域应该比较少见。 
 
 
 

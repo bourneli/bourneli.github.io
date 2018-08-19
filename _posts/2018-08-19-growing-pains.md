@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  成长的烦恼--一个非科班出身的机器学习工程师的感悟！
+title:  成长的烦恼--一个非科班出身机器学习工程师的感悟！
 categories: [perception]
 ---
 

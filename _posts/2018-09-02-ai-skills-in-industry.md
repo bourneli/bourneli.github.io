@@ -8,9 +8,9 @@ categories: [perception]
 
 近几年“AI”(Artificial Intelligence，人工智能)这个词被媒体大肆宣传，无论在国内还是国外，AI的关注度逐年增高，下面是近5年Baidu和Google中关键字“人工智能”或"AI"的趋势，
 
-![](\img\ai-skills\ai_trends_in_baidu.png)
+![](F:\my.git\github\bourneli.github.io\img\ai-skills\ai_trends_in_baidu.png)
 
-![](\img\ai-skills\ai_trends_in_google.png)
+![](F:\my.git\github\bourneli.github.io\img\ai-skills\ai_trends_in_google.png)
 
 无论国内国外，最近5年人们对AI的热情上涨了数倍。XX AI公司拿到B轮X千万融资，AI工程师毕业生年薪XX万等博眼球的新闻屡见不鲜。
 
@@ -51,11 +51,11 @@ categories: [perception]
 
 根据上面的能力和职位，结出职位能力模型，每个职位对应的能力要求从1到5，
 
-![](\img\ai-skills\ai_skills_model.png)
+![](F:\my.git\github\bourneli.github.io\img\ai-skills\ai_skills_model.png)
 
 按照系统架构的方式，各个职位结构如下，
 
-![](\img\ai-skills\ai_teams.png)
+![](F:\my.git\github\bourneli.github.io\img\ai-skills\ai_teams.png)
 
 所以，其实工业界需要的AI职位分布比较广，广大求职者可以根据自己的特长和兴趣，选择可以长久发展的职位。不能简单的认为，自己跑过最新的深度学习模型，动手刷过一些机器学习竞赛，参与发表过几篇学术论文，就可以理所应当的获得AI职位的Offer。
 

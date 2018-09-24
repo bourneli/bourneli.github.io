@@ -11,9 +11,12 @@ categories: [ML]
 >The AUC of a classifier is equivalent to the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
 
 使用数学语言表示如下，
+
+
 $$
 AUC = P(s(x_1) > s(x_0)) \qquad (1)
 $$
+
 
 
 公式(1)的符合意义如下，
@@ -44,22 +47,38 @@ $$
 * 复用公式(1)中定义的符号
 
 所以，根据上面的定义，可以容易计算出ROC的两个轴的表示，
+
+
 $$
 TPR = 1 - F_1(\tau) = y(\tau) \qquad (2) \\
 FPR = 1 - F_0(\tau) = x(\tau) \qquad (3)
 $$
+
+
 直接使用微积分定义计算AUC的面积，
+
+
 $$
 AUC = \int_0^1 y(x) dx \qquad (4)
 $$
+
+
 归根到底，公式(4)是阈值$\tau$的积分,而阈值的范围是$(-\infty,+\infty)$，所以
+
+
 $$
 AUC = \int_0^1 y(x(\tau)) dx(\tau) = \int_{-\infty}^{+\infty} y(\tau)x^\prime(\tau) d \tau \qquad (5)
 $$
+
+
 将(2),(3)带入(5)，
+
+
 $$
 AUC = \int_{-\infty}^{+\infty} (1-F_1(\tau))(-f_0(\tau)) d\tau = \int_{+\infty}^{-\infty} (1-F_1(\tau)) f_0(\tau) d\tau \qquad (6)
 $$
+
+
 可以较为容易解读(6)。
 
 其中$P(s(x_1) \ge \tau) = 1-F_1(\tau)$，即随机正样本模型打分$s(x_1) \ge \tau$的概率。$P(s(x_0) = \tau) = f_0(\tau) d\tau$,即随机负样本模型打分$s(x_0) = \tau$的概率，通过在整个阈值定义域积分，得到所有事件的概率。由于两个样本是随机从正样本和负样本选取，所以两个事件独立。所以AUC最终可以解读为**分别随机从正样本选取$x_1$，负样本选取$x_0$，AUC的值等于事件s(x_1)>=s(x_0)的概率**。
@@ -70,3 +89,4 @@ $$
 [AUC Interpretation]: https://stats.stackexchange.com/questions/180638/how-to-derive-the-probabilistic-interpretation-of-the-auc
 [An introduction to ROC analysis]: http://people.inf.elte.hu/kiss/12dwhdm/roc.pdf
 [ROC wiki]: https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF
+

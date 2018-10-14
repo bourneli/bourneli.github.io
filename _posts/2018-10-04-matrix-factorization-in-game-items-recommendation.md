@@ -51,8 +51,8 @@ categories: [Recommendation,Matrix-Factorization]
 
 * [2016-FunkSVD](http://sifter.org/simon/journal/20061211.html) FunkSVD算法，主要应用于显示反馈；
 * [2008-CF for Implicit](http://yifanhu.net/PUB/cf.pdf) FunkSVD应用于隐式反馈的开山力作；
-* [2008-SVD++](http://www.cs.rochester.edu/twiki/pub/Main/HarpSeminar/Factorization_Meets_the_Neighborhood-_a_Multifaceted_Collaborative_Filtering_Model.pdf) 基于SVD算法的一些列优化；
-* [2009-BPR for Implicit](https://arxiv.org/ftp/arxiv/papers/1205/1205.2618.pdf) 使用贝叶斯思想，直接优化排序，而不是平方差；
+* [2008-SVD++](http://www.cs.rochester.edu/twiki/pub/Main/HarpSeminar/Factorization_Meets_the_Neighborhood-_a_Multifaceted_Collaborative_Filtering_Model.pdf) 基于SVD算法的一系列优化；
+* [2009-BPR for Implicit](https://arxiv.org/ftp/arxiv/papers/1205/1205.2618.pdf) 使用贝叶斯思想，直接优化排序，而不是最小化均方差；
 * [2009-MF Survey](https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf) 综述文章，总结基于SVD矩阵分解的技术，以及作者在Netflix比赛中的应用情况。
 * [2011-Conjugate Gradient for Implicit](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.379.6473&rep=rep1&type=pdf) 矩阵分解问题可以抽象为Weighted Ridge Regression(WRR)问题，常规解法是Coordinate Gradient(或称为ALS)，以及Stochastic Gradient Decent。这篇论文应用Conjugate Gradient算法解决MF问题，并在部分Netflix隐式数实验数据上验证其效果。
 

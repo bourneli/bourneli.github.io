@@ -10,7 +10,7 @@ categories: [R,Translation]
 
 
 
-现实世界的分类任务中，处理高度不平衡的分类问题非常具有挑战性。本文由两部分，主要介绍一些R和caret相关技巧。这些技巧可以在高度不平衡的分类场景下提高模型预测性能。本文是第一部分，以通用视角介绍如何在实战中使用这些技巧。第二部分着重介绍这些技巧相关的“坑”，这些坑十分容易在实战中遇见，需要谨记。
+现实世界的分类任务中，处理高度不平衡的分类问题非常具有挑战性。本文由两部分，主要介绍一些R和caret相关技巧。这些技巧可以在高度不平衡的分类场景下提高模型预测性能。本文是第一部分，以通用视角介绍如何在实战中使用这些技巧。[第二部](https://www.r-bloggers.com/handling-class-imbalance-with-r-and-caret-caveats-when-using-the-auc/)分着重介绍这些技巧相关的“坑”，这些坑十分容易在实战中遇见，需要谨记。
 
 
 
@@ -132,8 +132,8 @@ orig_fit %>%
 # Create model weights (they sum to one)
 
 model_weights <- ifelse(imbal_train$Class == "Class1",
-                        (1/table(imbal_train$Class)[1]) * 0.5,
-                        (1/table(imbal_train$Class)[2]) * 0.5)
+​                        (1/table(imbal_train$Class)[1]) * 0.5,
+​                        (1/table(imbal_train$Class)[2]) * 0.5)
 
 # Use the same seed to ensure same cross-validation splits
 
@@ -142,51 +142,119 @@ ctrl$seeds <- orig_fit$control$seeds
 # Build weighted model
 
 weighted_fit <- train(Class ~ .,
-                      data = imbal_train,
-                      method = "gbm",
-                      verbose = FALSE,
-                      weights = model_weights,
-                      metric = "ROC",
-                      trControl = ctrl)
+​                      data = imbal_train,
+​                      method = "gbm",
+​                      verbose = FALSE,
+​                      weights = model_weights,
+​                      metric = "ROC",
+​                      trControl = ctrl)
 
 # Build down-sampled model
 
 ctrl$sampling <- "down"
 
 down_fit <- train(Class ~ .,
-                  data = imbal_train,
-                  method = "gbm",
-                  verbose = FALSE,
-                  metric = "ROC",
-                  trControl = ctrl)
+​                  data = imbal_train,
+​                  method = "gbm",
+​                  verbose = FALSE,
+​                  metric = "ROC",
+​                  trControl = ctrl)
 
 # Build up-sampled model
 
 ctrl$sampling <- "up"
 
 up_fit <- train(Class ~ .,
-                data = imbal_train,
-                method = "gbm",
-                verbose = FALSE,
-                metric = "ROC",
-                trControl = ctrl)
+​                data = imbal_train,
+​                method = "gbm",
+​                verbose = FALSE,
+​                metric = "ROC",
+​                trControl = ctrl)
 
 # Build smote model
 
 ctrl$sampling <- "smote"
 
 smote_fit <- train(Class ~ .,
-                   data = imbal_train,
-                   method = "gbm",
-                   verbose = FALSE,
-                   metric = "ROC",
-                   trControl = ctrl)
+​                   data = imbal_train,
+​                   method = "gbm",
+​                   verbose = FALSE,
+​                   metric = "ROC",
+​                   trControl = ctrl)
+
+{% endhighlight %}
+
+测试集的AUC表明，相比于原始方法，权重方法或采样方法有明显的提升。
+
+{% highlight R %}
+# Examine results for test set
+
+model_list <- list(original = orig_fit,
+​                   weighted = weighted_fit,
+​                   down = down_fit,
+​                   up = up_fit,
+​                   SMOTE = smote_fit)
+
+model_list_roc <- model_list %>%
+  map(test_roc, data = imbal_test)
+
+model_list_roc %>%
+  map(auc)
+
+## $original
+## Area under the curve: 0.9575
+## 
+## $weighted
+## Area under the curve: 0.9804
+## 
+## $down
+## Area under the curve: 0.9705
+## 
+## $up
+## Area under the curve: 0.9759
+## 
+## $SMOTE
+## Area under the curve: 0.976
+{% endhighlight %}
+
+我们可以通过ROC曲线来观察，加权和采样方法在哪些地方由于原始方法。我们可以看出加权模型在真个ROC曲线上都优于其他方法，同时原始方法的假阳率在0~0.25之间明显比其他方法差。表明其他模型在早期有更好的检索数字。即当样本被模型计算为较少类型的高概率样本时，其他算法可以更准确的确定真阳样本。
+
+{% highlight R %}
+
+results_list_roc <- list(NA)
+num_mod <- 1
+
+for(the_roc in model_list_roc){
+
+  results_list_roc[[num_mod]] <- 
+​    data_frame(tpr = the_roc$sensitivities,
+​               fpr = 1 - the_roc$specificities,
+​               model = names(model_list)[num_mod])
+
+  num_mod <- num_mod + 1
+
+}
+
+results_df_roc <- bind_rows(results_list_roc)
+
+# Plot ROC curve for all 5 models
+
+custom_col <- c("#000000", "#009E73", "#0072B2", "#D55E00", "#CC79A7")
+
+ggplot(aes(x = fpr,  y = tpr, group = model), data = results_df_roc) +
+  geom_line(aes(color = model), size = 1) +
+  scale_color_manual(values = custom_col) +
+  geom_abline(intercept = 0, slope = 1, color = "gray", size = 1) +
+  theme_bw(base_size = 18)
 
 {% endhighlight %}
 
 
 
+![](F:\my.git\github\bourneli.github.io\img\roc-auc-in-r.png)
 
 
 
+## 最后的思考
 
+上面的文章中，我总结出了一些步骤用于该井非平衡分类问题的性能。虽然在模拟数据上，加强方法优于采样方法，但是这并不表名在所有数据下都是这样。因此，在你的数据集上，必须尝试不同的方法确认最优的方法。我发现在很多不同的非平衡数据集上，采样或加权方法并没有显著的AUC提升。[下偏博文](https://www.r-bloggers.com/handling-class-imbalance-with-r-and-caret-caveats-when-using-the-auc/)，我将介绍一些使用AUC的坑，以及其他一些更有意义的指标。请继续收看！

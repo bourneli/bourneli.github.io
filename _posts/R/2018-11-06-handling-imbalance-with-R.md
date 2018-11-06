@@ -257,4 +257,4 @@ ggplot(aes(x = fpr,  y = tpr, group = model), data = results_df_roc) +
 
 ## 最后的思考
 
-上面的文章中，我总结出了一些步骤用于改进非平衡分类问题的性能。虽然在模拟数据上，加权方法优于采样方法，但是这并不表名在所有数据下都是这样。因此，在你的数据集上，必须尝试不同的方法确认最优的方法。我发现在很多不同的非平衡数据集上，采样或加权方法并没有显著的AUC提升。[下偏博文](https://www.r-bloggers.com/handling-class-imbalance-with-r-and-caret-caveats-when-using-the-auc/)，我将介绍一些使用AUC的坑，以及其他一些更有意义的指标。请继续收看！
+上面总结出了一些改进非平衡分类问题性能的技巧。虽然在模拟数据上，加权方法优于采样方法，但是这并不是在所有数据下都是这样。因此，在你的数据集上，必须尝试不同的方法确认最优的方案。笔者发现在很多不同的非平衡数据集上，采样或加权方法并没有显著的AUC提升。[下偏博文](https://www.r-bloggers.com/handling-class-imbalance-with-r-and-caret-caveats-when-using-the-auc/)，笔者将介绍一些使用AUC的“坑”，以及其他分类器指标。请继续收看！

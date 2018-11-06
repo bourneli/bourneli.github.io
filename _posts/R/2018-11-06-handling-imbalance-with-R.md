@@ -70,11 +70,119 @@ prop.table(table(imbal_train$Class))
 
 
 
+## 初始结果
+
+gbm模型用于给这些数据建模，因为它可以处理模拟数据中潜在的交互和非线性部分。模型超参数，在训练数据上使用5折交叉验证调节。避免确定最后的阈值，AUC被用于评估模型的效果。应为需要交叉验证，下面的码可能需要一点执行时间，所以可以减少参数repeats来加速实验过程，或者使用函数trainControl中的参数**verboseIter=TRUE**来追踪整个过程。
 
 
 
+{% highlight R %}
 
 
+# Set up control function for training
+
+ctrl <- trainControl(method = "repeatedcv",
+​                     number = 10,
+​                     repeats = 5,
+​                     summaryFunction = twoClassSummary,
+​                     classProbs = TRUE)
+
+# Build a standard classifier using a gradient boosted machine
+
+set.seed(5627)
+
+orig_fit <- train(Class ~ .,
+​                  data = imbal_train,
+​                  method = "gbm",
+​                  verbose = FALSE,
+​                  metric = "ROC",
+​                  trControl = ctrl)
+
+# Build custom AUC function to extract AUC
+# from the caret model object
+
+test_roc <- function(model, data) {
+
+  roc(data$Class,
+​      predict(model, data, type = "prob")[, "Class2"])
+
+}
+
+orig_fit %>%
+  test_roc(data = imbal_test) %>%
+  auc()
+## Area under the curve: 0.9575
+
+{% endhighlight %}
+
+整体而言，此模型的AUC为0.96，效果还不错。我们可以使用上面提到的技巧提高AUC吗？
+
+
+
+## 使用加权或采样方法处理非平衡分类
+
+加权和采样方法在caret包中使用非常简单。使用train函数中的weights参数，即可将权重加到建模过程中（此方法必须支持weights参数，完整列表参考[这里](https://redirect.viglink.com/?format=go&jsonp=vglnk_154149705618827&key=949efb41171ac6ec1bf7f206d57e90b8&libId=jo5glaug01021u9s000DAvjb6gjc04wa7&loc=https%3A%2F%2Fwww.r-bloggers.com%2Fhandling-class-imbalance-with-r-and-caret-an-introduction%2F&v=1&out=https%3A%2F%2Ftopepo.github.io%2Fcaret%2Ftrain-models-by-tag.html%23Accepts_Case_Weights&title=Handling%20Class%20Imbalance%20with%20R%20and%20Caret%20%E2%80%93%20An%20Introduction%20%7C%20R-bloggers&txt=here)）。采样方法可以使用trainControl函数中的sampling参数设置。为了得到一致的结果，seeds必须保持不变。
+
+需要注意，使用采样方法时，只有训练数据需要采样，测试数据不能采样。这意味着需要在交叉验证过层中使用采样技巧。caret的作者Max Kuhn给出了一个非常好的例子，描述如果不注意这个细节将会发生什么，具体可以参考[这里](https://redirect.viglink.com/?format=go&jsonp=vglnk_154149749080530&key=949efb41171ac6ec1bf7f206d57e90b8&libId=jo5glaug01021u9s000DAvjb6gjc04wa7&loc=https%3A%2F%2Fwww.r-bloggers.com%2Fhandling-class-imbalance-with-r-and-caret-an-introduction%2F&v=1&out=https%3A%2F%2Ftopepo.github.io%2Fcaret%2Fsubsampling-for-class-imbalances.html&title=Handling%20Class%20Imbalance%20with%20R%20and%20Caret%20%E2%80%93%20An%20Introduction%20%7C%20R-bloggers&txt=this%20caret%20documentation)。下面代码演示如何正确使用采样技巧。
+
+
+
+{% highlight R %}
+
+# Create model weights (they sum to one)
+
+model_weights <- ifelse(imbal_train$Class == "Class1",
+                        (1/table(imbal_train$Class)[1]) * 0.5,
+                        (1/table(imbal_train$Class)[2]) * 0.5)
+
+# Use the same seed to ensure same cross-validation splits
+
+ctrl$seeds <- orig_fit$control$seeds
+
+# Build weighted model
+
+weighted_fit <- train(Class ~ .,
+                      data = imbal_train,
+                      method = "gbm",
+                      verbose = FALSE,
+                      weights = model_weights,
+                      metric = "ROC",
+                      trControl = ctrl)
+
+# Build down-sampled model
+
+ctrl$sampling <- "down"
+
+down_fit <- train(Class ~ .,
+                  data = imbal_train,
+                  method = "gbm",
+                  verbose = FALSE,
+                  metric = "ROC",
+                  trControl = ctrl)
+
+# Build up-sampled model
+
+ctrl$sampling <- "up"
+
+up_fit <- train(Class ~ .,
+                data = imbal_train,
+                method = "gbm",
+                verbose = FALSE,
+                metric = "ROC",
+                trControl = ctrl)
+
+# Build smote model
+
+ctrl$sampling <- "smote"
+
+smote_fit <- train(Class ~ .,
+                   data = imbal_train,
+                   method = "gbm",
+                   verbose = FALSE,
+                   metric = "ROC",
+                   trControl = ctrl)
+
+{% endhighlight %}
 
 
 

@@ -43,201 +43,227 @@ LSH算法需要合并L个hash桶。最开始是先将L个桶计算完后，然�
 
 由于多个rdd merge时会很多内存和时间，所以每次计算一个桶rdd即过滤。此过程的开销是每个rdd与原始数据join两次。但是，适当做好partition（参考[这里](http://bourneli.github.io/scala/spark/2017/03/19/spark-job-stage-task-smart-join.html)），只有一次join需要shuffle，另外一次不需要。最终性能得到了巨大提升。原来1亿乘30的数据计算时会OOM，优化后同样配置可以稳定在6小时完成。2千万行乘以30列的数据，优化前需要3小时，优化后只需要1小时。spark 2.1中添加了欧式距离LSH[BucketedRandomProjectionLSH](https://github.com/apache/spark/blob/branch-2.1/mllib/src/main/scala/org/apache/spark/ml/feature/BucketedRandomProjectionLSH.scala)，但是没有做太多优化，同样配置，该算计算上面提到的1亿乘以30的数据集时，出现OOM异常。
 
-## 参考代码 (2017-5-23更新)
+## 参考代码 (2018-12-15更新)
 
-下面的实现是离线计算版本，在线计算版本需要后台服务器开发，无法使用spark实现。但是如果掌握了整个LSH原理，在线版本不会太困难。
+下面的实现是离线计算版本，在线计算版本需要后台服务器开发，无法使用spark实现。但是如果掌握了整个LSH原理，在线版本不会太困难。下面是源代码，有兴趣的同学可以自取。
 
 {% highlight scala %}
-ort org.apache.spark.rdd.RDD
+import org.apache.spark.ml.linalg.{Vectors, Vector}
+import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
-import breeze.linalg.{Vector, DenseVector, norm}
 import breeze.stats.distributions.{Gaussian, Uniform}
 import org.apache.spark.HashPartitioner
 import scala.reflect.ClassTag
 import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
 
-
 /**
-  * @param lshWidth     映射后的桶的宽度
-  * @param bucketWidth  桶内，相同lsh的个数
-  * @param bucketSize   桶的个数
-  * @param storageLevel 缓存策略
-  * @param parts        分区数量
-  * @param lshUpBound   lsh上界，每个key中的候选对象个数高于上界，随机选取
-  * @param lshRandom    随机选取的数量
-  * @param mergeSize    LSH表格缓存个数
-  * @param maxSize 最大尺寸
-  */
-class LSHForE2(
-                  distance: Double,
-                  lshWidth: Double,
-                  bucketWidth: Int = 10,
-                  bucketSize: Int = 200,
-                  storageLevel: StorageLevel = StorageLevel.MEMORY_AND_DISK,
-                  parts: Int = 1000,
-                  lshUpBound: Int = 1000,
-                  lshRandom: Int = 10,
-                  mergeSize: Int = 8,
-                  maxSize:Int = 12) extends Serializable {
+  * 实现欧式空间的LSH算法，添加了大量优化，详细信息，可以参考下面的文献
+    *
+  * http://bourneli.github.io/probability/lsh/2016/09/15/lsh_eulidian_1.html
+  * http://bourneli.github.io/probability/lsh/2016/09/22/lsh_eulidian_2.html
+  * http://bourneli.github.io/probability/lsh/2016/09/23/lsh_eulidian_3.html
+  * http://bourneli.github.io/probability/lsh/2016/10/01/lsh_eulidian_4.html
+    *
+  * @param distance     每个相似对的最大距离小于等于distance
+  * @param lshWidth     映射后的桶的宽度，文献中对应w
+  * @param bucketWidth  桶内，相同lsh的个数，文献中对应k
+  * @param bucketSize   桶的个数,文献中对应L
+  * @param storageLevel 缓存策略，数据量小为Memory,数据量大为Memeory_and_Disk
+  * @param parts          RDD分区数量,用于设置并发
+  * @param lshUpBound     单个桶样本上限，一旦突破此上限，采取随机取样策略
+  * @param lshRandom      随机选取的数量，随机的个数
+  * @param mergeSize      LSH表格缓存个数
+  * @param maxSize        每个样本，最多保留maxSize个相似对
+    */
+class LSHForE2(distance: Double, lshWidth: Double, bucketWidth: Int = 10, bucketSize: Int = 200,
+      ​         storageLevel: StorageLevel = StorageLevel.MEMORY_AND_DISK, parts: Int = 1000, lshUpBound: Int = 1000,
+      ​         lshRandom: Int = 10, mergeSize: Int = 8, maxSize: Int = 12) extends Serializable {
 
-    assert(lshWidth > 0, s"Width = $lshWidth must be great than 0")
-    assert(bucketWidth > 0, s"k = $bucketWidth must be great than 0")
-    assert(bucketSize > 0, s"l = $bucketSize must be great than 0")
-    assert(lshRandom < lshUpBound,
-        s"lshRansom $lshRandom should be less than lshUpBound $lshUpBound")
+  assert(distance > 0, s"distance = $distance must be greater than 0")
+  assert(lshWidth > 0, s"Width = $lshWidth must be great than 0")
+  assert(bucketWidth > 0, s"k = $bucketWidth must be great than 0")
+  assert(bucketSize > 0, s"l = $bucketSize must be great than 0")
+  assert(lshRandom < lshUpBound, s"lshRansom $lshRandom should be less than lshUpBound $lshUpBound")
 
-    /**
-      * 计算lsh
-      * @param raw 需要计算的数据
-      * @tparam K id类型，可以使string或long，建议为long，节省内存
-      * @return 每一对id以及距离
-      */
-    def lsh[K: ClassTag](raw: RDD[(K, Vector[Double])]): RDD[(K, K, Double)] = {
+  /**
+​    * 计算lsh
+​    *
+​    * @param raw 需要计算的数据
+​    * @tparam K id类型，可以使string或long，建议为long，节省内存
+​    * @return 每一对id以及距离
+​    */
+  def lsh[K: ClassTag](raw: RDD[(K, Vector)]): RDD[(K, K, Double)] = {
 
-        // 分区加缓存，用于后面的join
-        val data = raw.partitionBy(new HashPartitioner(parts)).persist(storageLevel)
-        val nf = java.text.NumberFormat.getIntegerInstance
-
-        // 特征长度
-        val vectorWidth = data.first._2.length
-        assert(vectorWidth > 0, s"Vector width is $vectorWidth")
-
-        // 生成所有的hash参数
-        val normal = Gaussian(0, 1) // 生成随机投影向量
-        val uniform = Uniform(0, lshWidth) // 生成随机偏差
-        val hashSeq: IndexedSeq[(Vector[Double], Double)] = for (i <- 0 until bucketWidth * bucketSize)
-                yield (DenseVector(normal.sample(vectorWidth).toArray), uniform.sample)
-        val hashFunctionsBC = data.sparkContext.broadcast(hashSeq)
-
-        // 计算lsh值
-        val lshRDD = data.map({ case (id, vector) =>
-            val hashFunctions = hashFunctionsBC.value
-            val hashValues = hashFunctions.map({
-                case (project: Vector[Double], offset: Double) =>
-                    (((project dot vector) + offset) / lshWidth).floor.toLong
-            })
-            (id, hashValues.toArray.grouped(bucketWidth).toArray)
-        }).persist(storageLevel)
-        println("LSH Tag")
-        lshRDD.take(10).map(x =>
-            "%s -> %s".format(x._1, x._2.map(_.mkString(" ")).mkString(",")))
-            .foreach(println)
-        val dataSize = lshRDD.count
-        val allPairSize = dataSize * (dataSize - 1) / 2d
-        println("LSH Size:" + nf.format(dataSize))
-
-        // 计算所有的LSH桶
-        val bucketBuffer = ArrayBuffer[RDD[(K, (K,Double))]]()
-        (0 until bucketSize).map(i => {
-            val begin = System.currentTimeMillis
-
-            // 统计lsh后每个id的聚集的数据量
-            val idGroupRDD = lshRDD.map(x => (x._2(i).mkString(","), x._1))
-                .groupByKey(parts)
-                .map(_._2.toArray) // 只需要id,并且转成array，方便后面随机选取，否则非常消耗性能。
-                .filter(_.length > 1) // 过滤一个id的情况
-                .persist(storageLevel)
-            val meanGroup = idGroupRDD.map(_.length).mean
-            val stdevGroup = idGroupRDD.map(_.length).stdev
-            val maxGroup = idGroupRDD.map(_.length).max
-            val pairsCount = idGroupRDD.map(_.length).map(x => x * (x - 1)).sum
-            println(
-                s"""
-                   |Mean Group Size: $meanGroup
-                   |Standard Deviation: $stdevGroup
-                   |Max Group Size: $maxGroup
-                   |Pairs Count: $pairsCount
+    // 分区加缓存，用于后面的join
+    val data = raw.partitionBy(new HashPartitioner(parts)).persist(storageLevel)
+    val nf = java.text.NumberFormat.getIntegerInstance
+    
+    // 特征长度
+    val vectorWidth = data.first._2.size
+    assert(vectorWidth > 0, s"Vector width is $vectorWidth")
+    
+    // 生成所有的hash参数
+    val normal = Gaussian(0, 1) // 生成随机投影向量
+    val uniform = Uniform(0, lshWidth) // 生成随机偏差
+    val hashSeq: IndexedSeq[(Vector, Double)] = for (i <- 0 until bucketWidth * bucketSize)
+      yield (Vectors.dense(normal.sample(vectorWidth).toArray), uniform.sample)
+    val hashFunctionsBC = data.sparkContext.broadcast(hashSeq)
+    
+    // 计算lsh值
+    val lshRDD = data.map({ case (id, vector) =>
+      val hashFunctions = hashFunctionsBC.value
+      val hashValues = hashFunctions.map({
+        case (project: Vector, offset: Double) =>
+          val dotProduct = project.toArray.zip(vector.toArray).map(x => x._1 * x._2).sum
+          ((dotProduct + offset) / lshWidth).floor.toLong
+      })
+      (id, hashValues.toArray.grouped(bucketWidth).toArray)
+    }).persist(storageLevel)
+    println("LSH Tag")
+    lshRDD.take(10).map(x =>
+      "%s -> %s".format(x._1, x._2.map(_.mkString(" ")).mkString(",")))
+      .foreach(println)
+    val dataSize = lshRDD.count
+    val allPairSize = dataSize * (dataSize - 1) / 2d
+    println("LSH Size:" + nf.format(dataSize))
+    
+    // 计算所有的LSH桶
+    val bucketBuffer = ArrayBuffer[RDD[(K, (K, Double))]]()
+    (0 until bucketSize).map(i => {
+      val begin = System.currentTimeMillis
+    
+      // 统计lsh后每个id的聚集的数据量
+      val idGroupRDD = lshRDD.map(x => (x._2(i).mkString(","), x._1))
+        .groupByKey(parts)
+        .map(_._2.toArray) // 只需要id,并且转成array，方便后面随机选取，否则非常消耗性能。
+        .filter(_.length > 1) // 过滤一个id的情况
+        .persist(storageLevel)
+      val meanGroup = idGroupRDD.map(_.length).mean
+      val stdevGroup = idGroupRDD.map(_.length).stdev
+      val maxGroup = idGroupRDD.map(_.length).max
+      val pairsCount = idGroupRDD.map(_.length).map(x => x * (x - 1)).sum
+      println(
+        s"""
+           |Mean Group Size: $meanGroup
+           |Standard Deviation: $stdevGroup
+           |Max Group Size: $maxGroup
+           |Pairs Count: $pairsCount
                 """.stripMargin)
-
-            // 组合相似对
-            val similarPairs = idGroupRDD.flatMap(neighbors => {
-                if (neighbors.length <= lshUpBound) {
-                    // 候选集不多，排列组合任意两个id
-                    val pairs = neighbors.combinations(2)
-                        .map(x => (x(0), x(1))).toArray
-                    pairs ++ pairs.map(_.swap)
-                } else {
-                    // 候选集过多，随机选取，避免排列组合爆炸
-                    val rand = new Random(System.currentTimeMillis())
-                    val allRandomPairs = ArrayBuffer[(K, K)]()
-                    for (key <- neighbors) {
-                        val randomRhs = (for (i <- 0 until lshRandom)
-                            yield neighbors(rand.nextInt(neighbors.length)))
-                            .distinct.map(x => (key, x))
-                        allRandomPairs.appendAll(randomRhs)
-                    }
-                    allRandomPairs.toArray[(K, K)]
-                }
-            }).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
-
-            // 剔除过多数据
-            val reduceSimilarPairs = similarPairs.join(data)
-                .map({case (srcKey, (dstKey, srcVec)) => dstKey -> (srcKey, srcVec)})
-                .partitionBy(new HashPartitioner(parts))
-                .join(data)
-                .map({case (dstKey, ((srcKey, srcVec), dstVec)) =>
-                    srcKey -> (dstKey,norm(srcVec - dstVec, 2))   // TODO: 此处可能可优化
-                })
-                .filter({case (_, (_, dist)) => dist < distance})
-                .groupByKey(parts)
-                .flatMap({case(srcKey, distList) => distList.toArray
-                    .sortBy(_._2)
-                    .slice(0, maxSize)
-                    .map({case (dstKey, dist) => (srcKey, (dstKey, dist))})
-                }).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
-
-            val currentResultSize = reduceSimilarPairs.count
-            val end = System.currentTimeMillis
-            val timeCost = (end - begin) / 1000d
-            println(s"=======Rount $i, Result Size = %s,Time Cost: $timeCost s"
-                .format(nf.format(currentResultSize)))
-            idGroupRDD.unpersist(false)
-            similarPairs.unpersist(false)
-            bucketBuffer.append(reduceSimilarPairs)
-
-            // 合并中间表格，节省空间
-            if ((bucketBuffer.length >= mergeSize
-                || i == bucketSize - 1)
-                && bucketBuffer.length > 1) {
-                val mergeBegin = System.currentTimeMillis
-
-                val merged = data.sparkContext.union(bucketBuffer)
-                    .groupByKey(parts)
-                    .flatMap({case (srcKey, dstList) => {
-                        dstList.toArray
-                            .distinct
-                            .sortBy(_._2)
-                            .slice(0,maxSize)
-                            .map({case(dstKey,dist) => (srcKey, (dstKey, dist))})
-                    }}).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
-
-                val mergedCount = merged.count
-                println(s"Merged Count : %s".format(nf.format(mergedCount)))
-
-                bucketBuffer.foreach(_.unpersist(false))
-                bucketBuffer.clear
-                bucketBuffer.append(merged)
-
-                val mergeEnd = System.currentTimeMillis
-                val timeCost = (mergeEnd - mergeBegin) / 1000d
-                println(s"Merge Time Cost: $timeCost s")
-            }
+    
+      // 组合相似对
+      val similarPairs = idGroupRDD.flatMap(neighbors => {
+        if (neighbors.length <= lshUpBound) {
+          // 候选集不多，排列组合任意两个id
+          val pairs = neighbors.combinations(2)
+            .map(x => (x(0), x(1))).toArray
+          pairs ++ pairs.map(_.swap)
+        } else {
+          // 候选集过多，随机选取，避免排列组合爆炸
+          val rand = new Random(System.currentTimeMillis())
+          val allRandomPairs = ArrayBuffer[(K, K)]()
+          for (key <- neighbors) {
+            val randomRhs = (for (_ <- 0 until lshRandom)
+              yield neighbors(rand.nextInt(neighbors.length)))
+              .distinct.map(x => (key, x))
+            allRandomPairs.appendAll(randomRhs)
+          }
+          allRandomPairs.toArray[(K, K)]
+        }
+      }).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
+    
+      // 剔除过多数据
+      val reduceSimilarPairs = similarPairs.join(data)
+        .map({ case (srcKey, (dstKey, srcVec)) => dstKey -> (srcKey, srcVec) })
+        .partitionBy(new HashPartitioner(parts))
+        .join(data)
+        .map({ case (dstKey, ((srcKey, srcVec), dstVec)) =>
+          val distance = scala.math.sqrt((srcVec.toArray zip dstVec.toArray)
+            .map(x => scala.math.pow(x._1 - x._2, 2)).sum)
+          srcKey -> (dstKey, distance) // TODO: 此处可能可优化
         })
-
-        assert(1 == bucketBuffer.size, "Bucket Size is great than 1")
-        val finalResult = bucketBuffer(0)
-            .map({case(srcKey, (dstKey, dist)) => (srcKey, dstKey, dist)})
-            .persist(storageLevel)
+        .groupByKey(parts)
+        .flatMap({ case (srcKey, distList) => distList.toArray
+          .filter(_._2 < distance)
+          .sortBy(_._2)
+          .slice(0, maxSize)
+          .map({ case (dstKey, dist) => (srcKey, (dstKey, dist)) })
+        }).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
+    
+      val currentResultSize = reduceSimilarPairs.count
+      val end = System.currentTimeMillis
+      val timeCost = (end - begin) / 1000d
+      println(s"=======Rount $i, Result Size = %s,Time Cost: $timeCost s"
+        .format(nf.format(currentResultSize)))
+      idGroupRDD.unpersist(false)
+      bucketBuffer.append(reduceSimilarPairs)
+    
+      // 合并中间表格，节省空间
+      if ((bucketBuffer.length >= mergeSize
+        || i == bucketSize - 1)
+        && bucketBuffer.length > 1) {
+        val mergeBegin = System.currentTimeMillis
+    
+        val merged = data.sparkContext.union(bucketBuffer)
+          .groupByKey(parts)
+          .flatMap({ case (srcKey, dstList) => {
+            dstList.toArray
+              .distinct
+              .sortBy(_._2)
+              .slice(0, maxSize)
+              .map({ case (dstKey, dist) => (srcKey, (dstKey, dist)) })
+          }
+          }).partitionBy(new HashPartitioner(parts)).persist(storageLevel)
+    
+        val mergedCount = merged.count
+        println(s"Merged Count : %s".format(nf.format(mergedCount)))
+    
+        bucketBuffer.foreach(_.unpersist(false))
         bucketBuffer.clear
-        val distinctLshParisSize = finalResult.count
-        println(s"Distinct Lsh Pair Size %s, rate = %.3f".format(
-            nf.format(distinctLshParisSize), distinctLshParisSize / allPairSize))
-
-        finalResult
-    }
+        bucketBuffer.append(merged)
+    
+        val mergeEnd = System.currentTimeMillis
+        val timeCost = (mergeEnd - mergeBegin) / 1000d
+        println(s"Merge Time Cost: $timeCost s")
+      }
+    })
+    
+    assert(1 == bucketBuffer.size, "Bucket Size is great than 1")
+    val finalResult = bucketBuffer(0)
+      .map({ case (srcKey, (dstKey, dist)) => (srcKey, dstKey, dist) })
+      .persist(storageLevel)
+    bucketBuffer.clear
+    val distinctLshParisSize = finalResult.count
+    println(s"Distinct Lsh Pair Size %s, rate = %.3f".format(
+      nf.format(distinctLshParisSize), distinctLshParisSize / allPairSize))
+    
+    finalResult
+  }
 }
 {% endhighlight %}
+
+
+
+## 算法参数说明（2018-12-15更新）
+
+在使用此算法的时候，有同学反馈参数太多，不会配置，下面笔者简单的介绍一下参数的意义，以及相关资料。参数主要分为几类，
+
+- 核心算法参数，这些参数与算法精度和召回相关，建议了解算法原理后进行设置效果更佳，
+  - **lshWidth** 映射后的桶的宽度，文献中对应w，该值越大，可能导致所有样本映射到一个桶中，可以参考[这篇文章](http://bourneli.github.io/probability/lsh/2016/09/23/lsh_eulidian_3.html)进行设置该值。
+  - **bucketWidth** 桶内相同lsh的个数，文献中对应k，该值越大，精度越高。
+  - **bucketSize** 桶的个数,文献中对应L，该值越大，召回越大，可以参考[这篇文章](http://bourneli.github.io/probability/lsh/2016/09/23/lsh_eulidian_3.html)进行设置。
+  - **lshUpBound** 单个桶样本上限，一旦突破此上限，采取随机取样策略，具体意义见本文[优化2-巨片随机化][优化2-巨片随机化]
+  - **lshRandom** 随机选取的数量，随机的个数，具体意义见本文[优化2-巨片随机化][优化2-巨片随机化]
+
+- 性能优化参数，这些参数如果不太清楚，可以先使用默认值，然后逐步在实验中调整，对结果精度影响不大
+  - **storageLevel** 缓存策略，数据量小为Memory,数据量大为Memeory_and_Disk
+  - **parts** RDD分区数量,用于设置并发
+  - **mergeSize** LSH表格缓存个数
+- 应用相关参数，这些参数与应用逻辑强相关，
+  - **distance** 每个相似对的最大距离小于等于distance
+  - **maxSize** 每个样本，最多保留maxSize个相似对
+
+
 
 ## 结语
 

@@ -16,7 +16,7 @@ categories: [go]
 
 
 
-首先，定出模板类，以及模板方法，
+首先，定义模板类，以及模板方法，
 
 {% highlight go %}
 // 定义模板类，使用struct，而不是interface
@@ -27,7 +27,8 @@ type DBLoader struct {
 
 // 实现模版方法
 func (l *DBLoader)Load(db_conf *mysql.DbConfig) error {
-   sql := l.Sql() // 拼接sql
+   sql := l.Sql() // 拼接sql	
+   // MySQL查询
    err = l.Assign(&rst)   // 解码数据
    // ... 仅用于演示，其他逻辑这里忽略
    return nil

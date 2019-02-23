@@ -125,6 +125,12 @@ if (w_lower > w_upper) {
 
 {% endhighlight %}
 
+上面脚本会输出下面内容，
+
+<div align='center'>
+	<img src='/img/lsh-opt-demo/lsh_parameters_report.png' />
+</div>
+
 希望上面的内容对读者有帮助。
 
 

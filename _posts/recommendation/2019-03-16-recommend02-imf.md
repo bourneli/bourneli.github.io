@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  AB Test比较需要确保用户分布不变
-categories: [ML,Recommend]
+title:  推荐技术系列02：隐式矩阵分(IMF)解详解
+categories: [IMF,Recommendation]
 ---
 
 

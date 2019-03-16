@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  矩阵分解技术应用于在线游戏道具推荐场景的调研
+title:  推荐系列01：矩阵分解技术调研
 categories: [Recommendation,Matrix-Factorization]
 ---
 

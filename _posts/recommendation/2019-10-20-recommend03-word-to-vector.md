@@ -9,7 +9,7 @@ categories: [Recommendation,Word2Vector,NLP,Embedding]
 
 ## 技术背景
 
-Word2Vector自从2013年被Google的Mikolov及其团队提出，目前被广泛的应用在工业界。虽然它是NLP领域的技术，但是也可以被用来解决物品推荐相关的问题。经实践证明，无论是直接使用Word2Vector做推荐，还是用于计算道具特征，均可以得到比较好的效果。本文主要介绍Word2Vector的原理，包括主要思路，优化以及应用案例。
+Word2Vector自从2013年被Google的Mikolov及其团队提出，目前被广泛的应用在工业界。虽然它是NLP领域的技术，但是也可以被用来解决物品推荐相关的问题。经实践证明，无论是直接使用Word2Vector做推荐，还是用于计算物品特征，均可以得到比较好的效果。本文主要介绍Word2Vector的原理，包括主要思路，优化以及应用案例。
 
 
 
@@ -130,15 +130,25 @@ Airbnb修改了Word2Vector中的Skip Gram的目标函数，加入了短租房相
 
 ### 案例3：雅虎邮件产品推荐
 
+雅虎通过用户邮箱中的购物收据，获取用户和物品的交互列表，然后生成物品向量。其创新在于将用户的物品向量进行聚类，然后为了避免推荐相似的物品，他们推荐相领聚类中的相似物品，示意图如下，
 
+![](img/cluster_recommendations.png)
+
+更多细节，可以参考雅虎在2016年发表的论文[(2016)E-commerce in Your Inbox: Product Recommendations at Scale](https://arxiv.org/pdf/1606.07154.pdf)。
 
 
 
 ### 案例4：搜索和广告推荐
 
+这次是雅虎的搜索，他们将用户的query，广告和点击的连接作为序列进行学习，这样将query和广告映射到相同的空间，就可以推荐出更加相关的广告。他们面临的主要挑战是查询，广告和点击的量级是亿级别，而不是NLP中的万级别。所以，他们开发了分布式的word2vector算法用于训练如此大的样本空间。同时，他们开发了一个类似Facebook Fassis的在线向量检索系统[Nearest](http://www.nearist.ai/)。更多细节，可以阅读他们2016年发表的论文[Scalable Semantic Matching of Queries to Ads in Sponsored Search Advertising](https://arxiv.org/abs/1607.01869)。
 
 
 
+## 总结
+
+Word2Vector之所以被广泛的应用，笔者认为它解决了推荐中的核心问题--物品特征。物品低维度稠密向量的距离特征，可以很好的被现有的推荐算法利用，给出较好的排序结果。其他方法也可以计算物品的特征，但是计算效率和实现成本远远不及Word2Vecor，所以此技术基本上成为各公司推荐团队的标准配置，掌握此技术很有必要。
+
+上面简单的介绍了Word2Vector的原理，以及应用案例，希望能够降低读者入门门槛，如果希望了解更多细节，可以阅读**参考资料**中相关的文献。
 
 
 
@@ -154,4 +164,6 @@ Airbnb修改了Word2Vector中的Skip Gram的目标函数，加入了短租房相
 * [Hierarchical Softmax for CBOW](http://building-babylon.net/2017/08/01/hierarchical-softmax/)
 * [What is hierarchical softmax?](https://www.quora.com/What-is-hierarchical-softmax)
 * (2018)Real-time Personalization using Embeddings for Search Ranking at Airbnb. 2018 KDD最佳论文。
+* [(2016)E-commerce in Your Inbox: Product Recommendations at Scale](https://arxiv.org/pdf/1606.07154.pdf)
+* [(2016)Scalable Semantic Matching of Queries to Ads in Sponsored Search Advertising](https://arxiv.org/abs/1607.01869)
 

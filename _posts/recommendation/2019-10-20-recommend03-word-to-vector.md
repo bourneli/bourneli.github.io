@@ -27,15 +27,15 @@ Word2Vector的主要作用是将语料中的单词（word）映射到一个固�
 
 Skip-Gram架构解决相邻词预测问题。具体做法是在语料中任意找到一个词，然后预测其周围词的概率，相邻范围由Window Size设定，下面取Window Size=2为例,
 
-![](img\training_data.png)
+![](\img\w2v_img\training_data.png)
 
 根据上面的语料，可以生成样本(the,quick)，(quick, brown)，(fox,over)等。有了这些样本后，需要构建一个函数，接收词的One Hot编码，输出所有的词的概率$p_i$。Word2Vector本质上是将无监督学习转成有监督问题。有很多方法可以求解这个问题，比如深度神经网络叠加100层MLP，或者用浅层逻辑回归，又或者Wide & Deep等。但是Google的工程师使用了相对非常简单的网络结构，如下：
 
-![](img\skip_gram_net_arch.png)
+![](\img\w2v_img\skip_gram_net_arch.png)
 
 从网络结构来看，就只有一个隐藏层，甚至没使用激活函数，然后接一个Softmax层，将输出归一化为概率。笔者感觉就是“As simple as possible, but no simpler.”。而我们的词向量就是中间这个隐藏层的参数，
 
-![](img\word2vec_weight_matrix_lookup_table.png)
+![](\img\w2v_img\word2vec_weight_matrix_lookup_table.png)
 
 这个隐藏层可以看做一个矩阵$\matrix{M}$（如上图左边矩阵），将词的One Hot编码看做是行向量$\vec{x}$。$\vec{x}\matrix{M}$得到该词的向量。如果从上往下看（如上图右边矩阵），向量$\vec{x}$只有在对应词的地方是1，其他全是0，所以词向量$\vec{x}\matrix{M}$就是矩阵$\matrix{M}$对应的行向量。
 
@@ -57,7 +57,7 @@ Word2Vector的作者们使用了一些采样技巧，在急剧的减少计算量
 
 回顾输入的样本，
 
-![](img\training_data.png)
+![](\img\w2v_img\training_data.png)
 
 上面样本的主要问题就是词“the”出现得太多了，而且诸如("fox", "the")的这类样本意义不是特别大，所以需要将这类样本从整体的训练样本中剔除。Word2Vector通过给每个词设定一个概率来随机剔除这个词，这个词的概率与词的频率有关，
 $$
@@ -132,7 +132,7 @@ Airbnb修改了Word2Vector中的Skip Gram的目标函数，加入了短租房相
 
 雅虎通过用户邮箱中的购物收据，获取用户和物品的交互列表，然后生成物品向量。其创新在于将用户的物品向量进行聚类，然后为了避免推荐相似的物品，他们推荐相领聚类中的相似物品，示意图如下，
 
-![](img/cluster_recommendations.png)
+![](\img\w2v_img\cluster_recommendations.png)
 
 更多细节，可以参考雅虎在2016年发表的论文[(2016)E-commerce in Your Inbox: Product Recommendations at Scale](https://arxiv.org/pdf/1606.07154.pdf)。
 

@@ -77,7 +77,7 @@ $$
 (2)或(3)均可，根据实际效果显示，(3)的离线效果往往较好。 $r_{ui}$ 是用于u和物品i的交互，如果将该值考虑关系，那么可以仍然利用现有IMF的实现，即可融合关系数据，如下
 
 $$
-r^\prime_{ui} = r_{ui} + \delta \frac{\sum_{v \in n(u)} r_{vi} s(x_u,x_v)}{\sum_{v \in n(u)} s(x_v,x_v)}  \qquad(4)
+r^\prime_{ui} = r_{ui} + \delta \frac{\sum_{v \in n(u)} r_{vi} s(x_u,x_v)}{\sum_{v \in n(u)} s(x_u,x_v)}  \qquad(4)
 $$
 
 其中$\delta$是衰减系数，控制关系传递的confidence的显著程度。

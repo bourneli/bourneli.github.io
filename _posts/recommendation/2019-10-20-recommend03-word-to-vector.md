@@ -138,7 +138,7 @@ Word2Vector虽然是NLP技术，但是近几年来被广泛应用与物品推荐
 
 ### 案例1：音乐推荐
 
- Anghami是中东地区的音乐流媒体公司（可以理解为中东的QQ音乐）。他们从用户的收听列表中学习歌曲的向量，然后根据每个用户的收藏列表的中的歌曲向量平均后得到用户的（Taste）口味向量，可以将口味向量周围还没有被用户收藏或收听的歌曲推荐给用户，此[动画](https://cdn-images-1.medium.com/max/1400/1*xbNM_CnEIWQtGbsLmZtE-A.gif)形象的演示了整个过程，有兴趣的读者可以看看。
+ Anghami是中东地区的音乐流媒体公司（可以理解为中东的QQ音乐）。他们从用户的收听列表中学习歌曲的向量，然后根据每个用户的收藏列表的中的歌曲向量平均后得到用户的（Taste）口味向量，可以将口味向量周围还没有被用户收藏或收听的歌曲推荐给用户，此[动画](https://cdn-images-1.medium.com/max/1400/1*xbNM_CnEIWQtGbsLmZtE-A.gif)形象的演示了整个过程，有兴趣的读者可以看看。这是原始博客[Using Word2vec for Music Recommendations](https://towardsdatascience.com/using-word2vec-for-music-recommendations-bb9649ac2484)。
 
  
 

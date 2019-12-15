@@ -43,7 +43,7 @@ TensorFlow环境安装好了，接下来需要让IDE识别出TensorFlow的相关
 
 ### 启动Tensorboard
 
-ensorboard用来观察tensorflow执行时，各种指标的工具，作用十分类似spark web ui。最主要的使用场景是观察模型loss是否收敛。使用的示例程序参考这篇[官方文档](https://www.tensorflow.org/get_started/monitors)。一般在程序执行完后，如果指定了log，那么就可以通过tensorboard观察整个执行过程。我这里遇到了一个坑。官方文档里面没有指定port，但是我的本地在执行tensorboard命令后没有显示断后，所以需要我手动指定端口，才可以观察到下面的效果，具体命令如下。
+Tensorboard用来观察tensorflow执行时，各种指标的工具，作用十分类似spark web ui。最主要的使用场景是观察模型loss是否收敛。使用的示例程序参考这篇[官方文档](https://www.tensorflow.org/get_started/monitors)。一般在程序执行完后，如果指定了log，那么就可以通过tensorboard观察整个执行过程。我这里遇到了一个坑。官方文档里面没有指定port，但是我的本地在执行tensorboard命令后没有显示断后，所以需要我手动指定端口，才可以观察到下面的效果，具体命令如下。
 
 ```
 tensorboard --logdir=log --port=8000

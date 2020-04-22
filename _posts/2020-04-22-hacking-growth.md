@@ -8,7 +8,7 @@ categories: [hg]
 
 最近读了Sean Ellis和Morgan Brown的书[《增长黑客》](https://book.douban.com/subject/27593848//)。该书汇集了作者多年在产品增长方面的经验和案例，并且总结成方法论，同时该书还是一个软广告，为作者的咨询公司[growthhackers](http://growthhackers.com/)打了无数的广告。这本书是否真的具有价值，等待后面的实践进验证。这里笔者总结此书的精髓，用于日后复习。增长黑客方法论可以用下面的一张图来概括，
 
-![](F:\my.git\github\bourneli.github.io\img\growth-summary.jpg)
+![](\img\growth-summary.jpg)
 
 本书主要内容分两个部分，共8章，刚好针对上面的每一个模块一章。
 

@@ -28,36 +28,3 @@ md2resume html --template swissen resume_public.md .
 ## 在线Markdown生成简历 更新于2020-5-4
 
 按照上面的方式，自己搭建环境有点麻烦，而且随着技术的升级，此攻略可能不适用。笔者已更换笔记本电脑，之前搭建的环境全部丢失。不过，笔者最近找到了一个在线Markdown简历生成工具[冷熊简历](https://cv.ftqq.com/#)，并且支持pdf转换。该平台免费，但是笔者捐献了6.66元，用于支持此工具的运转。钱虽不多，但是每个使用此工具的人都捐献一点，就可帮此工具稳定运行，毕竟维护系统和租借服务器都是成本。郑重声明：本人与此工具作者没有任何利益关系。
-
-
-
-<div class ="post-donate">
-      <div id="donate_board" class="donate_bar center">
-        <a id="btn_donate" class="btn_donate" href="javascript:;" title="Donate 打赏"></a>
-        <span class="donate_txt">
-           &uarr;<br>
-           Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-           {% endif %}          
-        </span>
-        <br>
-      </div>  
-
-      <div id="donate_guide" class="donate_bar center hidden">
-          <a href="http://ixirong.oss-cn-beijing.aliyuncs.com/pic/donate/alipay1.webp" title="支付宝打赏" class="fancybox" rel="article0"       style="float:left;margin-left:25%;margin-right:2px;">
-          <img src="http://ixirong.oss-cn-beijing.aliyuncs.com/pic/donate/alipay1.webp" title="支付宝打赏" height="164px" width="164px">
-          </a> 
-      </div>
-    
-      <div id="donate_guide" class="donate_bar center hidden">
-          <a href="http://ixirong.oss-cn-beijing.aliyuncs.com/pic/donate/wechat.png" title="支付宝打赏" class="fancybox" rel="article0"  >
-          <img src="http://ixirong.oss-cn-beijing.aliyuncs.com/pic/donate/wechat.png" title="支付宝打赏" height="164px" width="164px">
-          </a> 
-      </div>
-      
-      <script type="text/javascript">
-        document.getElementById('btn_donate').onclick = function(){
-          $('#donate_board').addClass('hidden');
-          $('#donate_guide').removeClass('hidden');
-        }
-      </script>
-</div>

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "网络传播-理论篇"
-categories: [graph,sns]
+categories: [graph,SNS]
 ---
 
 最近看了一些网络传播扩展方面的内容，总结了网络扩散的数学理论以及相关实验。本博文主要介绍[网络扩散的数学模型][2]，下篇记录[相关实验][4]。

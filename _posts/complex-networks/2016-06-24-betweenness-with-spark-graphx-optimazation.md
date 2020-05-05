@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Spark优化那些事(2)-graphx实现介数估算踩坑总结"
-categories: [scala,spark,sns,graphx,graph]
+categories: [scala,spark,SNS,graphx,graph]
 ---
 
 ## 背景

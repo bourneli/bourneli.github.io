@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "复杂网络属性计算之直径和介数"
-categories: [graph]
+categories: [graph,SNS]
 ---
 
 ## 背景

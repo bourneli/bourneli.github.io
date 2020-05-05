@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "网络传播-实验篇"
-categories: [graph,sns]
+categories: [graph,SNS]
 ---
 
 上一篇博文中讨论了[网络传播的数学模型][1]，本文主要记录相关模拟实验，验证该理论。主要包括：

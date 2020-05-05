@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "图直径与离心率(eccentricity)相关推论"
-categories: [graph]
+categories: [graph,SNS]
 ---
 
 计算图的直径，如果按照定义直接计算，复杂度会是$O(n^3)$。实际通常采取估算的方法，估算过程会涉及到一个重要的概念——离心率(eccentricity)。离心率与直径有一些推论，这里集中证明，作为备忘。以下推论适用全联通图，无向/有向,无权/有权均可，但是权重需要非负。

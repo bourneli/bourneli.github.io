@@ -17,13 +17,15 @@ I participated in the work of online game link prediction about three years ago,
 The players' friend lists are stored in the data warehourse. We can convert the list to a social network, in which we can recommend the 2-hop and 3-hop neighbors as acquaintances. Then, we need to sort them to create the final top-N list. The metrics are the relation similarities. We have tried the following ones:
 
 * **Common Neighbors** $ \text{Sim}_{\text{CN}}(x,y) = \vert \Gamma(x) \cap \Gamma(y) \vert $ 
-* **Jaccard Similarity Coefficient** $ \text{Sim}_{\text{Jaccard}}(x,y) = \frac{\text{Sim}_{\text{CN}}(x,y)}{\vert \Gamma(x) \cup \Gamma(y) \vert} $
-* **Adamic-Adar** $ \text{Sim}_{\text{AA}}(x, y)=\sum_{z \in \Gamma(x) \cap \Gamma(y)}\frac{1}{ \vert \Gamma(z) \vert} $
-* **Resource Allocation** $ \text{Sim}_{\text{RA}}(x, y) = \sum_{z \in \Gamma(x) \cap \Gamma(y)}\frac{1}{\log\vert \Gamma(z) \vert} $
+* **Jaccard Similarity Coefficient** $ \text{Sim}_{\text{Jaccard}}(x,y) =  \text{Sim}_{\text{CN}}(x,y) / \vert \Gamma(x) \cup \Gamma(y) \vert  $
+* **Adamic-Adar** $ \text{Sim}_{\text{AA}}(x, y)=\sum_{z \in \Gamma(x) \cap \Gamma(y)} \vert \Gamma(z) \vert^{-1} $ 
+* **Resource Allocation** $ \text{Sim}_{\text{RA}}(x, y) = \sum_{z \in \Gamma(x) \cap \Gamma(y)} \log\vert \Gamma(z) \vert ^{-1} $ 
 * **Preferential Attachment**  $ \text{Sim}_{\text{PA}}(x, y)=\vert \Gamma(x) \vert \times \vert \Gamma(y) \vert $
-* **Relation Transfer**  $ \text{Sim}_{\text{RT}}(x, y) = \sum_{z \in \Gamma(x) \cap \Gamma(y)} \frac{w(x,z)}{w(z)}\frac{w(z,y)}{w(y)} $
+* **Relation Transfer**  $ \text{Sim}_{\text{RT}}(x, y) = \sum_{z \in \Gamma(x) \cap \Gamma(y)}  (w(x,z)w(z,y))/(w(z)w(y)) $
 
-$\Gamma(x)$ means the set of 1-hop neighbors of user x. For user $x$, $w(x,z)$ means the relation weight of user $z$, so it derives $ w(x) = \sum_{n \in \Gamma(x)}w(x, n) $. 
+
+
+$\Gamma(x)$ means the set of 1-hop neighbors of user $x$. For user $x$, $w(x,z)$ means the relation weight of user $z$, so it derives $ w(x) = \sum_{n \in \Gamma(x)}w(x, n) $. 
 
 In my opinion, these metrics are heuristic, which means there is no mathematics to ensure which one is best. However, they are very simple to implement. So, we can get them all to take online AB Test and choose the best one in each case. 
 

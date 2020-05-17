@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  Automatic Differentiation Behind Scene
+title:  Automatic Differentiation Behind the Scene
 categories: [deep-learning]
 ---
 

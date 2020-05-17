@@ -85,7 +85,7 @@ $$
 Usually, there are two modes to calculate the gradients, **forward modes** and **reverse modes**.
 
 1. Forward mode traverses the chain rules from inside to outside: $\frac{dw_i}{dx} = \frac{dw_i}{dw_{i-1}}\frac{dw_{i-1}}{dx}$ 
-2. Reverse mode traverses the chain rules from outside to inside: $\frac{dy}{dw_i}=\frac{dy}{dw_{i+1}}\frac{dw_{i+1}}{dw_i}$  
+2. Reverse mode traverses the chain rules from outside to inside: $\frac{dy}{dw_i}=\frac{dy}{dw_{i+1}}\frac{dw_{i+1}}{dw_i}$ 
 
 
 
@@ -99,7 +99,7 @@ In forward mode, we should traverse the computational graph n times, which n is 
 
 ![](\img\auto-diff\foward-mode.png)
 
-We use $\dot{v}_i = \dot{v}_{i-1}\frac{\partial  v_i}{\partial v_{i-1}}$ to compute at each node. 
+We use $$\dot{v}_i = \dot{v}_{i-1}\frac{\partial  v_i}{\partial v_{i-1}}$$ to compute at each node. 
 
 ![](\img\auto-diff\foward-mode-x1.png)It computes the gradient for $x_1$
 
@@ -111,7 +111,7 @@ In reverse mode, it only traverses the graph 2 times, no matter how many paramet
 
 ![](\img\auto-diff\reverse-mode.png)
 
-We use $\bar{v}_i = \bar{v}_{i+1}\frac{\partial v_{i+1}}{\partial v_i}$ to compute at each node.
+We use $$\bar{v}_i = \bar{v}_{i+1}\frac{\partial v_{i+1}}{\partial v_i}$$  to compute at each node.
 
 ![](\img\auto-diff\reverse-mode-forward-pass.png)
 

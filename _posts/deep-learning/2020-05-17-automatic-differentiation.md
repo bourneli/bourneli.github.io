@@ -91,33 +91,33 @@ Usually, there are two modes to calculate the gradients, **forward modes** and *
 
 Theoretically, the two modes arrive at the same result, however the computational costs are significantly different. Let's take a simple function $f(x_1, x_2)=(x_1^2+x_2^2)^{\frac{1}{2}}$ for example. Its computational graph is following,
 
-![](\_posts\deep-learning\img\simple-dag.png)
+![](\img\auto-diff\simple-dag.png)
 
 
 
 In forward mode, we should traverse the computational graph n times, which n is the number of parameters in the loss function. In this example, we traverses the computational graph 2 times as following. Imaging we have millions of parameters, it costs too much. The following example illustrates the process.
 
-![](\_posts\deep-learning\img\foward-mode.png)
+![](\img\auto-diff\foward-mode.png)
 
 We use $\dot{v}_i = \dot{v}_{i-1}\frac{\partial  v_i}{\partial v_{i-1}}$ to compute at each node. 
 
-![](\_posts\deep-learning\img\foward-mode-x1.png)It computes the gradient for $x_1$
+![](\img\auto-diff\foward-mode-x1.png)It computes the gradient for $x_1$
 
-![](\_posts\deep-learning\img\foward-mode-x2.png)
+![](\img\auto-diff\foward-mode-x2.png)
 
 It computes the gradient for $x_2$.
 
 In reverse mode, it only traverses the graph 2 times, no matter how many parameters in the loss function. Firstly, evaluate the value in each node forwardly. Then, compute the gradients from the output note reversely.  Compared with forward mode, the main advantage is that reverse mode reuses results across parameters, which dramatically reduces the unnecessary computations. The following example illustrates the process.
 
-![](\_posts\deep-learning\img\reverse-mode.png)
+![](\img\auto-diff\reverse-mode.png)
 
 We use $\bar{v}_i = \bar{v}_{i+1}\frac{\partial v_{i+1}}{\partial v_i}$ to compute at each node.
 
-![](\_posts\deep-learning\img\reverse-mode-forward-pass.png)
+![](\img\auto-diff\reverse-mode-forward-pass.png)
 
 It traverses forwardly.
 
-![](\_posts\deep-learning\img\reverse-mode-bardward-pass.png)
+![](\img\auto-diff\reverse-mode-bardward-pass.png)
 
 It traverse backwardly.
 

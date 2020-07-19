@@ -37,6 +37,8 @@ The ranking model is almost the same as the recalling one. However, it puts more
 # Inferencing watch-time
 
 I think that the inference for watch-time is the most valuable practice in this paper. It uses weighted logistic regression to optimize the model and infer the rank in the form of  $e^{Wx+b}$, which takes the watch-time in consideration. Why does it work? The paper does not make it clear. I try to explain to it in Bayesian perspective. The form $e^{Wx+b}$ is odds, which is:
+
+
 $$
 \begin{align}
 Odds &= \frac{p}{1-p} \\
@@ -45,6 +47,8 @@ Odds &= \frac{p}{1-p} \\
      &= \frac{P(x \vert y=1)P(y=1)}{P(x \vert y=0) P(y=0)}
 \end{align}
 $$
+
+
 Weighted logistic regression only changes the $P(y=1)$ to $wP(y=1)$ and $P(y=0) \ll P(y=1)$, so it almost keeps the other things the same and the new odds is $w$ times the original one. $w$ is proportional to watch-time, so the new odds is the expected watch-time. Whether one unit $w$ is equal to one second, or one minutes or other unit time depends on the tunning and the paper doesn't mention it. Different conversion means different sample weights, so you should tunning it in your own problem. You can also read this [article](https://zhuanlan.zhihu.com/p/61827629) to gain more information.
 
 There are many best practices and I highly recommend you to read the paper in details.

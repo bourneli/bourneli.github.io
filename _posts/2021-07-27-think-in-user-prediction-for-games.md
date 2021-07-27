@@ -76,7 +76,7 @@ That adding more series, and applying pretrained model , such Word2Vector or BER
 
 ## Summary
 
-We have run 6 models, and gained lift step by step. The improvement of AUC shows that temporal data can add extra information, campared with only aggregated features, to make the model more accurate. Of course, it need more experiemnts to demostrate the generalizability the effectiveness. This experiment give us some inspiration and we will follow up and apply it in the real world problem in the future. The table below collect all result recorded in this blog.
+We have run 6 models, and gained lift step by step. The improvement of AUC shows that temporal data can add extra information, campared with only aggregated features, to make the model more accurate. Of course, it need more experiemnts to demostrate the generalizability the effectiveness. This experiment give us some inspiration and we will follow up and apply it in the real world problem in the future. The table below collects all result recorded in this blog.
 
 
 | Model | AUC |

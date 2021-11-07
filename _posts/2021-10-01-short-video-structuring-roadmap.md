@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How does our AI evolve in deconstructing short videos? 
+title: Does our video understanding model evolve? 
 categories: [CV, Video, Tagging, Segmentation, UA, Advertisement]
 ---
 

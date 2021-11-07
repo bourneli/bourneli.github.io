@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Can We Benfit from Temporal Features in Games for User Behaviors Prediciton?
+title: Can We Benefit from Temporal Features in Games for User Behaviour Prediction?
 categories: [Machine Learning, Deep Learning]
 ---
 

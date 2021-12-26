@@ -6,7 +6,7 @@ categories: [SNS, Facebook, Meta, Google, UA]
 
 
 
-We have optimized the objectives of campaigns in the past decades of months on google UAC 2.5. We found that the retention of users did increase, even better than the Firebase events, but the volume did not. After serval rounds of discussion, We decided to improve the volume of new users by focusing on social fission. 
+I am quarantining at a hotel in Shenzhen right now. So, I have time to summarize my experience on global user acquisition.  We have optimized the objectives of campaigns in the past decades of months on google UAC 2.5. We found that the retention of users did increase, even better than the Firebase events, but the volume did not. After serval rounds of brainstorm, We decided to improve the volume of new users by focusing on social fission. 
 
 We have taken several trials in google UAC 2.5 with optimized social events, and the online metrics show an impressive lift, even better than the previously optimized events. This makes us believe that social fission does work in real life. So, we decided to try this on Facebook and its relative media, such as Instagram, Messager, and Whatsapp.
 

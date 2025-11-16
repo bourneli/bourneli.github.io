@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  LLM之后可能的另外一个新热门领域-World Model
+title:  LLM之后的新方向-World Model
 categories: [LLM,World Model]
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  World Model-简化梦境结构，大幅提升训练效率。
+title:  World Model-Dreamer V2简化梦境结构，大幅提升训练效率。
 categories: [LLM,World Model] 
 ---
 

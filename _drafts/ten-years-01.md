@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  十年感悟01---AI浪潮4年的影响
+title:  十年感悟01---AI浪潮4年来的思考
 categories: [growth, tech mangement]
 ---
 
